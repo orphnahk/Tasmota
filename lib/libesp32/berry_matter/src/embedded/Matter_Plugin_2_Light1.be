@@ -190,7 +190,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Device
       self.update_shadow_lazy()
       if   command == 0x0000            # ---------- MoveToLevel ----------
         var bri_254 = val.findsubval(0)  # Hue 0..254
-        self.set_bri(bri_254)
+        self.set_bri(bri_254, 1)
         ctx.log = "bri:"+str(bri_254)
         self.publish_command('Bri', bri_254, 'Dimmer', tasmota.scale_uint(bri_254, 0, 254, 0, 100), 'Power', 1)
         return true
