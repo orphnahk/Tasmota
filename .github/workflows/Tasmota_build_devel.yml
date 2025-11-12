@@ -28,6 +28,10 @@ jobs:
       - name: Install clang compiler
         run: |
           sudo apt-get install -f clang
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreadline-dev
       - name: Make Berry and Tasmota Berry code
         run: |
           cd lib/libesp32/berry
