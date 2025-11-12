@@ -124,7 +124,8 @@ class Matter_Plugin_Bridge_Light1 : Matter_Plugin_Bridge_Light0
         self.set_bri(bri_in)
         ctx.log = "bri:"+str(bri_in)
         self.publish_command('Bri', tasmota.scale_uint(bri_in, 0, 254, 0, 255),
-                             'Dimmer', tasmota.scale_uint(bri_in, 0, 254, 0, 100))
+                             'Dimmer', tasmota.scale_uint(bri_in, 0, 254, 0, 100),
+                             'Power', 1)
         return true
       elif command == 0x0001            # ---------- Move ----------
         # TODO, we don't really support it
