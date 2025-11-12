@@ -6,7 +6,7 @@
 #include "DataParsers.h"
 #include "DataParser.h"
 #include "Cosem.h"
-#include "ntohll_ams.h"
+#include "ntohll.h"
 
 #define BUF_SIZE_HAN (1280)
 

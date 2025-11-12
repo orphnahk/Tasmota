@@ -183,7 +183,6 @@ extern "C" {
     be_map_insert_int(vm, "local", Rtc.local_time);
     be_map_insert_int(vm, "restart", Rtc.restart_time);
     be_map_insert_int(vm, "timezone", Rtc.time_timezone);
-    be_map_insert_int(vm, "config_time", Settings->cfg_timestamp);
     be_pop(vm, 1);
     be_return(vm);
   }
@@ -218,13 +217,6 @@ extern "C" {
     // give info about stack size
     be_map_insert_int(vm, "stack_size", SET_ESP32_STACK_SIZE / 1024);
     be_map_insert_real(vm, "stack_low", ((float)uxTaskGetStackHighWaterMark(nullptr)) / 1024);
-    // values seen at last GC
-    if (berry.last_gc_tims_ms >= 0) {
-      be_map_insert_int(vm, "gc_time", berry.last_gc_tims_ms);
-    }
-    if (berry.last_gc_heap_free >= 0) {
-      be_map_insert_int(vm, "gc_heap", berry.last_gc_heap_free / 1024);
-    }
     if (UsePSRAM()) {
       be_map_insert_int(vm, "psram", ESP.getPsramSize() / 1024);
       be_map_insert_int(vm, "psram_free", ESP.getFreePsram() / 1024);
@@ -249,7 +241,7 @@ extern "C" {
       be_newobject(vm, "map");
       // (-2) map instance, (-1) map
     }
-    be_map_insert_str(vm, "mac", WiFiHelper::macAddress().c_str());
+    be_map_insert_str(vm, "mac", WiFi.macAddress().c_str());
     be_map_insert_bool(vm, "up", WifiHasIP());
     if (Settings->flag4.network_wifi) {
       int32_t rssi = WiFi.RSSI();
@@ -412,8 +404,7 @@ extern "C" {
   // ESP object
   int32_t l_yield(bvm *vm);
   int32_t l_yield(bvm *vm) {
-    BrTimeoutYield();
-    be_return_nil(vm);
+    return be_call_c_func(vm, (void*) &BrTimeoutYield, NULL, "-");
   }
 
   // Berry: tasmota.scale_uint(int * 5) -> int
@@ -807,7 +798,7 @@ extern "C" {
       const char *msg = be_tostring(vm, 2);
       be_pop(vm, top);  // avoid Error be_top is non zero message
 #ifdef USE_WEBSERVER
-      WSContentSendRaw_P( msg);
+      WSContentSend_P(PSTR("%s"), msg);
 #endif  // USE_WEBSERVER
       be_return_nil(vm); // Return nil when something goes wrong
     }
@@ -989,7 +980,7 @@ extern "C" {
     be_return(vm);
   }
 
-  // Berry: `arch() -> string`
+  // Berry: `arvh() -> string`
   // ESP object
   int32_t l_arch(bvm *vm);
   int32_t l_arch(bvm *vm) {
@@ -1096,11 +1087,8 @@ extern "C" {
     if (len+3 > LOGSZ) { strcat(log_data, "..."); }  // Actual data is more
     TasConsole.printf(log_data);
 #ifdef USE_SERIAL_BRIDGE
-    SerialBridgeWrite(log_data, strlen(log_data));
+    SerialBridgePrintf(log_data);
 #endif  // USE_SERIAL_BRIDGE
-#ifdef USE_TELNET
-    TelnetWrite(log_data, strlen(log_data));
-#endif  // USE_TELNET
   }
 
   void berry_log_C(const char * berry_buf, ...) {

@@ -1,36 +1,32 @@
 /*
- * Copyright 2020-2025 Ryan Powell <ryan@nable-embedded.io> and
- * esp-nimble-cpp, NimBLE-Arduino contributors.
+ * NimBLEScan.h
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Created: on Jan 24 2020
+ *      Author H2zero
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * Originally:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * BLEScan.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: kolban
  */
-
-#ifndef NIMBLE_CPP_SCAN_H_
-#define NIMBLE_CPP_SCAN_H_
+#ifndef COMPONENTS_NIMBLE_SCAN_H_
+#define COMPONENTS_NIMBLE_SCAN_H_
 
 #include "nimconfig.h"
-#if CONFIG_BT_ENABLED && CONFIG_BT_NIMBLE_ROLE_OBSERVER
+#if defined(CONFIG_BT_ENABLED) && defined(CONFIG_BT_NIMBLE_ROLE_OBSERVER)
 
-# include "NimBLEAdvertisedDevice.h"
-# include "NimBLEUtils.h"
+#include "NimBLEAdvertisedDevice.h"
+#include "NimBLEUtils.h"
 
-# if defined(CONFIG_NIMBLE_CPP_IDF)
-#  include "host/ble_gap.h"
-# else
-#  include "nimble/nimble/host/include/host/ble_gap.h"
-# endif
+#if defined(CONFIG_NIMBLE_CPP_IDF)
+#include "host/ble_gap.h"
+#else
+#include "nimble/nimble/host/include/host/ble_gap.h"
+#endif
 
-# include <vector>
+#include <vector>
 
 class NimBLEDevice;
 class NimBLEScan;
@@ -46,17 +42,17 @@ class NimBLEAddress;
  * index (starting at 0) of the desired device.
  */
 class NimBLEScanResults {
-  public:
-    void                                                 dump() const;
-    int                                                  getCount() const;
-    const NimBLEAdvertisedDevice*                        getDevice(uint32_t idx) const;
-    const NimBLEAdvertisedDevice*                        getDevice(const NimBLEAddress& address) const;
-    std::vector<NimBLEAdvertisedDevice*>::const_iterator begin() const;
-    std::vector<NimBLEAdvertisedDevice*>::const_iterator end() const;
+public:
+    void                                           dump();
+    int                                            getCount();
+    NimBLEAdvertisedDevice                         getDevice(uint32_t i);
+    std::vector<NimBLEAdvertisedDevice*>::iterator begin();
+    std::vector<NimBLEAdvertisedDevice*>::iterator end();
+    NimBLEAdvertisedDevice                         *getDevice(const NimBLEAddress &address);
 
-  private:
+private:
     friend NimBLEScan;
-    std::vector<NimBLEAdvertisedDevice*> m_deviceVec;
+    std::vector<NimBLEAdvertisedDevice*> m_advertisedDevicesVector;
 };
 
 /**
@@ -65,76 +61,68 @@ class NimBLEScanResults {
  * Scanning is associated with a %BLE client that is attempting to locate BLE servers.
  */
 class NimBLEScan {
-  public:
-    bool              start(uint32_t duration, bool isContinue = false, bool restart = true);
-    bool              isScanning();
-    void              setScanCallbacks(NimBLEScanCallbacks* pScanCallbacks, bool wantDuplicates = false);
-    void              setActiveScan(bool active);
-    void              setInterval(uint16_t intervalMs);
-    void              setWindow(uint16_t windowMs);
-    void              setDuplicateFilter(uint8_t enabled);
-    void              setLimitedOnly(bool enabled);
-    void              setFilterPolicy(uint8_t filter);
-    bool              stop();
-    void              clearResults();
-    NimBLEScanResults getResults();
-    NimBLEScanResults getResults(uint32_t duration, bool is_continue = false);
-    void              setMaxResults(uint8_t maxResults);
-    void              erase(const NimBLEAddress& address);
-    void              erase(const NimBLEAdvertisedDevice* device);
+public:
+    bool                start(uint32_t duration, bool is_continue = false);
+    bool                isScanning();
+    void                setScanCallbacks(NimBLEScanCallbacks* pScanCallbacks, bool wantDuplicates = false);
+    void                setActiveScan(bool active);
+    void                setInterval(uint16_t intervalMSecs);
+    void                setWindow(uint16_t windowMSecs);
+    void                setDuplicateFilter(bool enabled);
+    void                setLimitedOnly(bool enabled);
+    void                setFilterPolicy(uint8_t filter);
+    void                clearDuplicateCache();
+    bool                stop();
+    void                clearResults();
+    NimBLEScanResults   getResults();
+    NimBLEScanResults   getResults(uint32_t duration, bool is_continue = false);
+    void                setMaxResults(uint8_t maxResults);
+    void                erase(const NimBLEAddress &address);
 
-# if CONFIG_BT_NIMBLE_EXT_ADV
-    enum Phy { SCAN_1M = 0x01, SCAN_CODED = 0x02, SCAN_ALL = 0x03 };
-    void setPhy(Phy phyMask);
-    void setPeriod(uint32_t periodMs);
-# endif
 
-  private:
+private:
     friend class NimBLEDevice;
 
     NimBLEScan();
     ~NimBLEScan();
-    static int handleGapEvent(ble_gap_event* event, void* arg);
-    void       onHostSync();
+    static int  handleGapEvent(ble_gap_event*  event, void* arg);
+    void        onHostReset();
+    void        onHostSync();
 
-    NimBLEScanCallbacks* m_pScanCallbacks;
-    ble_gap_disc_params  m_scanParams;
-    NimBLEScanResults    m_scanResults;
-    NimBLETaskData*      m_pTaskData;
-    uint8_t              m_maxResults;
-
-# if CONFIG_BT_NIMBLE_EXT_ADV
-    uint8_t  m_phy{SCAN_ALL};
-    uint16_t m_period{0};
-# endif
+    NimBLEScanCallbacks*  m_pScanCallbacks;
+    ble_gap_disc_params   m_scan_params;
+    bool                  m_ignoreResults;
+    NimBLEScanResults     m_scanResults;
+    uint32_t              m_duration;
+    ble_task_data_t       *m_pTaskData;
+    uint8_t               m_maxResults;
 };
 
 /**
  * @brief A callback handler for callbacks associated device scanning.
  */
 class NimBLEScanCallbacks {
-  public:
+public:
     virtual ~NimBLEScanCallbacks() {}
 
     /**
      * @brief Called when a new device is discovered, before the scan result is received (if applicable).
      * @param [in] advertisedDevice The device which was discovered.
      */
-    virtual void onDiscovered(const NimBLEAdvertisedDevice* advertisedDevice);
+    virtual void onDiscovered(NimBLEAdvertisedDevice* advertisedDevice) {};
 
     /**
      * @brief Called when a new scan result is complete, including scan response data (if applicable).
      * @param [in] advertisedDevice The device for which the complete result is available.
      */
-    virtual void onResult(const NimBLEAdvertisedDevice* advertisedDevice);
+    virtual void onResult(NimBLEAdvertisedDevice* advertisedDevice) {};
 
     /**
      * @brief Called when a scan operation ends.
      * @param [in] scanResults The results of the scan that ended.
-     * @param [in] reason The reason code for why the scan ended.
      */
-    virtual void onScanEnd(const NimBLEScanResults& scanResults, int reason);
+    virtual void onScanEnd(NimBLEScanResults scanResults) {};
 };
 
-#endif // CONFIG_BT_ENABLED CONFIG_BT_NIMBLE_ROLE_OBSERVER
-#endif // NIMBLE_CPP_SCAN_H_
+#endif /* CONFIG_BT_ENABLED CONFIG_BT_NIMBLE_ROLE_OBSERVER */
+#endif /* COMPONENTS_NIMBLE_SCAN_H_ */

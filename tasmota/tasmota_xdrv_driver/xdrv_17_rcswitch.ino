@@ -29,12 +29,13 @@
 
 #define D_CMND_RFSEND "Send"
 #define D_CMND_RFPROTOCOL "Protocol"
+#define D_CMND_RFTIMEOUT "TimeOut"
 
 #define D_JSON_RF_PULSE "Pulse"
 #define D_JSON_RF_REPEAT "Repeat"
 #define D_JSON_NONE_ENABLED "None Enabled"
 
-const char kRfCommands[] PROGMEM = D_CMND_PREFIX_RF "|"  // Prefix
+const char kRfCommands[] PROGMEM = "Rf|"  // No prefix
   D_CMND_RFSEND "|" D_CMND_RFPROTOCOL "|" D_CMND_RFTIMEOUT;
 
 void (* const RfCommands[])(void) PROGMEM = {
@@ -51,22 +52,22 @@ uint32_t rf_lasttime = 0;
 void RfReceiveCheck(void) {
   if (mySwitch.available()) {
 
-    uint64_t data = mySwitch.getReceivedValue();
+    unsigned long data = mySwitch.getReceivedValue();
     unsigned int bits = mySwitch.getReceivedBitlength();
     int protocol = mySwitch.getReceivedProtocol();
     int delay = mySwitch.getReceivedDelay();
 
-    AddLog(LOG_LEVEL_DEBUG, PSTR("RFR: Data 0x%0_X (%_U), Bits %d, Protocol %d, Delay %d"), &data, &data, bits, protocol, delay);
+    AddLog(LOG_LEVEL_DEBUG, PSTR("RFR: Data 0x%lX (%u), Bits %d, Protocol %d, Delay %d"), data, data, bits, protocol, delay);
 
     uint32_t now = millis();
     if ((now - rf_lasttime > Settings->rf_duplicate_time) && (data > 0)) {
       rf_lasttime = now;
 
-      char stemp[24];
+      char stemp[16];
       if (Settings->flag.rf_receive_decimal) {      // SetOption28 - RF receive data format (0 = hexadecimal, 1 = decimal)
-        ext_snprintf_P(stemp, sizeof(stemp), PSTR("%_U"), &data);
+        snprintf_P(stemp, sizeof(stemp), PSTR("%u"), (uint32_t)data);
       } else {
-        ext_snprintf_P(stemp, sizeof(stemp), PSTR("\"0x%0_X\""), &data);
+        snprintf_P(stemp, sizeof(stemp), PSTR("\"0x%lX\""), (uint32_t)data);
       }
       ResponseTime_P(PSTR(",\"" D_JSON_RFRECEIVED "\":{\"" D_JSON_RF_DATA "\":%s,\"" D_JSON_RF_BITS "\":%d,\"" D_JSON_RF_PROTOCOL "\":%d,\"" D_JSON_RF_PULSE "\":%d}}"),
         stemp, bits, protocol, delay);
@@ -92,7 +93,7 @@ void RfInit(void) {
     if (!Settings->rf_protocol_mask) {
       Settings->rf_protocol_mask = (1ULL << mySwitch.getNumProtos()) -1;
     }
-    (void)mySwitch.setReceiveProtocolMask(Settings->rf_protocol_mask);
+    mySwitch.setReceiveProtocolMask(Settings->rf_protocol_mask);
   }
 }
 
@@ -132,10 +133,7 @@ void CmndRfProtocol(void) {
       }
     }
   }
-  const bool incompatibleProtocolsSelected = !mySwitch.setReceiveProtocolMask(Settings->rf_protocol_mask);
-  if (incompatibleProtocolsSelected) {
-    AddLog(LOG_LEVEL_INFO, PSTR("RFR: CmndRfProtocol:: Incompatible protocols selected, using default separation limit, some protocols may not work"));
-  }
+  mySwitch.setReceiveProtocolMask(Settings->rf_protocol_mask);
 //  AddLog(LOG_LEVEL_INFO, PSTR("RFR: CmndRfProtocol:: Start responce"));
   Response_P(PSTR("{\"" D_CMND_RFPROTOCOL "\":\""));
   bool gotone = false;

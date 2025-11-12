@@ -141,7 +141,7 @@ br_rsa_i15_private(unsigned char *x, const br_rsa_private_key *sk)
 	mp = mq + 2 * fwlen;
 	memmove(mp, t1, fwlen * sizeof *t1);
 
-	stack_thunk_yield();
+	optimistic_yield(10000);
 
 	/*
 	 * Compute s2 = x^dq mod q.
@@ -152,7 +152,7 @@ br_rsa_i15_private(unsigned char *x, const br_rsa_private_key *sk)
 	r &= br_i15_modpow_opt(s2, sk->dq, sk->dqlen, mq, q0i,
 		mq + 3 * fwlen, TLEN - 3 * fwlen);
 
-	stack_thunk_yield();
+	optimistic_yield(10000);
 
 	/*
 	 * Compute s1 = x^dq mod q.
@@ -184,7 +184,7 @@ br_rsa_i15_private(unsigned char *x, const br_rsa_private_key *sk)
 	br_i15_decode_reduce(t1, sk->iq, sk->iqlen, mp);
 	br_i15_montymul(t2, s1, t1, mp, p0i);
 
-	stack_thunk_yield();
+	optimistic_yield(10000);
 
 	/*
 	 * h is now in t2. We compute the final result:

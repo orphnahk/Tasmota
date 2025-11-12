@@ -41,7 +41,6 @@
  * IfxSensor   - Set Influxdb sensor logging off (0) or on (1)
  * IfxRP       - Set Influxdb retention policy
  * IfxLog      - Set Influxdb logging level (4 = default)
- * IfxFeed     - Feed Influxdb with JSON data
  *
  * The following triggers result in automatic influxdb numeric feeds without appended time:
  * - this driver initiated state message
@@ -51,9 +50,8 @@
 
 #define XDRV_59            59
 
-#ifndef INFLUXDB_INITIAL
 #define INFLUXDB_INITIAL   7             // Initial number of seconds after wifi connect keeping in mind sensor initialization
-#endif
+
 #ifndef INFLUXDB_STATE
 #define INFLUXDB_STATE     0             // [Ifx] Influxdb initially Off (0) or On (1)
 #endif
@@ -292,9 +290,6 @@ char* InfluxDbNumber(char* alternative, JsonParserToken value) {
     char* source = (char*)value.getStr();
     // Test for valid numeric data ('-.0123456789') or ON, OFF etc. as defined in kOptions
     if (source != nullptr) {
-      if (ChrCount(source, ".") > 1) {  // IPAddress like 192.168.2.123
-        return nullptr;
-      }
       char* out = source;
       // Convert special text as found in kOptions to a number
       // Like "OFF" -> 0, "ON" -> 1, "TOGGLE" -> 2
@@ -481,7 +476,6 @@ void InfluxDbLoop(void) {
 #define D_CMND_INFLUXDBPERIOD   "Period"
 #define D_CMND_INFLUXDBSENSOR   "Sensor"
 #define D_CMND_INFLUXDBRP       "RP"
-#define D_CMND_INFLUXDBFEED     "Feed"
 
 const char kInfluxDbCommands[] PROGMEM = D_PRFX_INFLUXDB "|"  // Prefix
   "|" D_CMND_INFLUXDBLOG "|"
@@ -489,8 +483,7 @@ const char kInfluxDbCommands[] PROGMEM = D_PRFX_INFLUXDB "|"  // Prefix
   D_CMND_INFLUXDBUSER "|" D_CMND_INFLUXDBORG "|"
   D_CMND_INFLUXDBPASSWORD "|" D_CMND_INFLUXDBTOKEN "|"
   D_CMND_INFLUXDBDATABASE "|" D_CMND_INFLUXDBBUCKET "|"
-  D_CMND_INFLUXDBPERIOD "|" D_CMND_INFLUXDBSENSOR "|"
-  D_CMND_INFLUXDBRP "|" D_CMND_INFLUXDBFEED;
+  D_CMND_INFLUXDBPERIOD "|" D_CMND_INFLUXDBSENSOR "|" D_CMND_INFLUXDBRP;
 
 void (* const InfluxCommand[])(void) PROGMEM = {
   &CmndInfluxDbState, &CmndInfluxDbLog,
@@ -498,8 +491,7 @@ void (* const InfluxCommand[])(void) PROGMEM = {
   &CmndInfluxDbUser, &CmndInfluxDbUser,
   &CmndInfluxDbPassword, &CmndInfluxDbPassword,
   &CmndInfluxDbDatabase, &CmndInfluxDbDatabase,
-  &CmndInfluxDbPeriod, &CmndInfluxDbSensor,
-  &CmndInfluxDbRP, &CmndInfluxDbFeed };
+  &CmndInfluxDbPeriod, &CmndInfluxDbSensor, &CmndInfluxDbRP };
 
 void InfluxDbReinit(void) {
   IFDB.init = false;
@@ -605,15 +597,6 @@ void CmndInfluxDbPeriod(void) {
     }
   }
   ResponseCmndNumber(Settings->influxdb_period);
-}
-
-void CmndInfluxDbFeed(void) {
-  // IfxFeed {"Data":10}
-  if ((XdrvMailbox.data_len > 0) && ('{' == XdrvMailbox.data[0])) {
-    Response_P(XdrvMailbox.data);
-    InfluxDbProcessJson();
-    ResponseCmndDone();
-  }
 }
 
 /*********************************************************************************************\

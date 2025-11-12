@@ -14,13 +14,10 @@ extern "C" {
  *      INCLUDES
  *********************/
 
-#include "../../lv_conf_internal.h"
-#include "../../misc/lv_types.h"
-#include LV_STDBOOL_INCLUDE
-#include LV_STDINT_INCLUDE
+#include "../../../lvgl.h"
 #if LV_USE_GIF
 
-#include "../../misc/lv_color.h"
+#include "gifdec.h"
 
 /*********************
  *      DEFINES
@@ -29,6 +26,14 @@ extern "C" {
 /**********************
  *      TYPEDEFS
  **********************/
+
+typedef struct {
+    lv_image_t img;
+    gd_GIF * gif;
+    lv_timer_t * timer;
+    lv_image_dsc_t imgdsc;
+    uint32_t last_call;
+} lv_gif_t;
 
 LV_ATTRIBUTE_EXTERN_DATA extern const lv_obj_class_t lv_gif_class;
 
@@ -42,15 +47,6 @@ LV_ATTRIBUTE_EXTERN_DATA extern const lv_obj_class_t lv_gif_class;
  * @return          pointer to the gif obj
  */
 lv_obj_t * lv_gif_create(lv_obj_t * parent);
-
-/**
- * Set the color format of the internally allocated framebuffer that the gif
- * will be decoded to. The default is LV_COLOR_FORMAT_ARGB8888.
- * Call this before `lv_gif_set_src` to avoid reallocating the framebuffer.
- * @param obj            pointer to a gif object
- * @param color_format   the color format of the gif framebuffer
- */
-void lv_gif_set_color_format(lv_obj_t * obj, lv_color_format_t color_format);
 
 /**
  * Set the gif data to display on the object
@@ -77,25 +73,6 @@ void lv_gif_pause(lv_obj_t * obj);
  * @param obj pointer to a gif obj
  */
 void lv_gif_resume(lv_obj_t * obj);
-
-/**
- * Checks if the GIF was loaded correctly.
- * @param obj pointer to a gif obj
- */
-bool lv_gif_is_loaded(lv_obj_t * obj);
-
-/**
- * Get the loop count for the GIF.
- * @param obj pointer to a gif obj
- */
-int32_t lv_gif_get_loop_count(lv_obj_t * obj);
-
-/**
- * Set the loop count for the GIF.
- * @param obj   pointer to a gif obj
- * @param count the loop count to set
- */
-void lv_gif_set_loop_count(lv_obj_t * obj, int32_t count);
 
 /**********************
  *      MACROS

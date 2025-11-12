@@ -46,7 +46,6 @@
 
 #if defined(ESP32)
 
-#include "ESP8266WiFi.h"
 #if defined(ESP_MAIL_WIFI_IS_AVAILABLE)
 #define WIFI_HAS_HOST_BY_NAME
 #endif
@@ -190,7 +189,7 @@ public:
      */
     void setTimeout(uint32_t timeoutSec)
     {
-        _tcp_client->setTimeout(timeoutSec * 1000);
+        _tcp_client->setTimeout(timeoutSec);
     }
 
     /**  Set the BearSSL IO buffer size.
@@ -457,7 +456,7 @@ public:
     int hostByName(const char *name, IPAddress &ip)
     {
 #if defined(ESP_MAIL_WIFI_IS_AVAILABLE)
-        return WiFiHelper::hostByName(name, ip);
+        return WiFi.hostByName(name, ip);
 #else
         return 1;
 #endif

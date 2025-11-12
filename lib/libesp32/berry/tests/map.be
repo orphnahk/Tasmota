@@ -1,39 +1,38 @@
-# Test map (dictionary) operations
 m = { 'a':1, 'b':3.5, 'c': "foo", 0:1}
 
 assert(type(m) == 'instance')
 assert(classname(m) == 'map')
 
-# Test element access
+# accessor
 assert(m['a'] == 1)
 assert(m['b'] == 3.5)
 assert(m['c'] == 'foo')
 assert(m[0] == 1)
 
-# Test find method
+# find
 assert(m.find('a') == 1)
 assert(m.find('z') == nil)
-assert(m.find('z', 4) == 4)  # With default value
+assert(m.find('z', 4) == 4)
 
-# Test contains method
+# contains
 assert(m.contains('a'))
 assert(m.contains(0))
 assert(!m.contains('z'))
 assert(!m.contains())
 
-# Test assignment
+# set
 m['y'] = -1
 assert(m['y'] == -1)
 
-# Test remove method
-m = {1:2}
-m.remove(2)  # Remove non-existent key
+# remove
+m={1:2}
+m.remove(2)
 assert(str(m) == '{1: 2}')
-m.remove(1)  # Remove existing key
+m.remove(1)
 assert(str(m) == '{}')
 
-# Test boolean keys
-m = {true:10, false:20}
+# allow booleans to be used as keys
+m={true:10, false:20}
 assert(m.contains(true))
 assert(m.contains(false))
 assert(m[true] == 10)

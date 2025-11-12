@@ -49,7 +49,6 @@ class Matter_Plugin_Shutter : Matter_Plugin_Device
   #
   # Parse configuration map
   def parse_configuration(config)
-    super(self).parse_configuration(config)
     self.tasmota_shutter_index = config.find(self.ARG #-'relay'-#)
     if self.tasmota_shutter_index == nil     self.tasmota_shutter_index = 0   end
     self.shadow_shutter_inverted = -1
@@ -66,10 +65,10 @@ class Matter_Plugin_Shutter : Matter_Plugin_Device
       if r_st13.contains('StatusSHT')
         r_st13 = r_st13['StatusSHT']        # skip root
         var d = r_st13.find("SHT"+str(self.tasmota_shutter_index), {}).find('Opt')
-        # log("MTR: opt: "+str(d))
+        # tasmota.log("MTR: opt: "+str(d))
         if d != nil
           self.shadow_shutter_inverted = int(d[size(d)-1])  # inverted is at the most right character
-          # log("MTR: Inverted flag: "+str(self.shadow_shutter_inverted))
+          # tasmota.log("MTR: Inverted flag: "+str(self.shadow_shutter_inverted))
         end
       end
     end
@@ -111,29 +110,22 @@ class Matter_Plugin_Shutter : Matter_Plugin_Device
       elif attribute == 0x000D          #  ---------- EndProductType / u8 ----------
         return tlv_solo.set(TLV.U1, 0xFF) # 0xFF = unknown type of shutter
       elif attribute == 0x000E          #  ---------- CurrentPositionLiftPercent100ths / u16 ----------
-        if self.shadow_shutter_pos != nil
-          if self.shadow_shutter_inverted == 0
-            matter_position = (100 - self.shadow_shutter_pos) * 100
-          else
-            matter_position = self.shadow_shutter_pos * 100
-          end
+        if self.shadow_shutter_inverted == 0
+          matter_position = (100 - self.shadow_shutter_pos) * 100
+        else
+          matter_position = self.shadow_shutter_pos * 100
         end
-        return tlv_solo.set_or_nil(TLV.U2, matter_position)
+        return tlv_solo.set(TLV.U2, matter_position)
       elif attribute == 0x000A          #  ---------- OperationalStatus / u8 ----------
-        var op
-        if self.shadow_shutter_direction != nil
-          op = self.shadow_shutter_direction == 0 ? 0 : (self.shadow_shutter_direction > 0 ? 1 : 2)
-        end
-        return tlv_solo.set_or_nil(TLV.U1, op)
+        var op = self.shadow_shutter_direction == 0 ? 0 : (self.shadow_shutter_direction > 0 ? 1 : 2)
+        return tlv_solo.set(TLV.U1, op)
       elif attribute == 0x000B          #  ---------- TargetPositionLiftPercent100ths / u16 ----------
-        if self.shadow_shutter_target != nil
-          if self.shadow_shutter_inverted == 0
-            matter_position = (100 - self.shadow_shutter_target) * 100
-          else
-            matter_position = self.shadow_shutter_target * 100
-          end
+        if self.shadow_shutter_inverted == 0
+          matter_position = (100 - self.shadow_shutter_target) * 100
+        else
+          matter_position = self.shadow_shutter_target * 100
         end
-        return tlv_solo.set_or_nil(TLV.U2, matter_position)
+        return tlv_solo.set(TLV.U2, matter_position)
 
       elif attribute == 0x0017          #  ---------- Mode / u8 ----------
         return tlv_solo.set(TLV.U1, 0)    # normal mode
@@ -170,7 +162,7 @@ class Matter_Plugin_Shutter : Matter_Plugin_Device
         self.update_shadow()
         return true
       elif command == 0x0005            # ---------- GoToLiftPercentage ----------
-        log("MTR: Tilt = "+str(val), 2)
+        tasmota.log("MTR: Tilt = "+str(val), 2)
         var pos_100 = val.findsubval(0)
         if pos_100 != nil
           pos_100 = pos_100 / 100
@@ -199,7 +191,7 @@ class Matter_Plugin_Shutter : Matter_Plugin_Device
     var k = "Shutter" + str(self.tasmota_shutter_index + 1)
     if payload.contains(k)
       var v = payload[k]
-      # log(format("MTR: getting shutter values(%i): %s", self.endpoint, str(v)), 2)
+      # tasmota.log(format("MTR: getting shutter values(%i): %s", self.endpoint, str(v)), 2)
       # Position
       var val_pos = v.find("Position")
       if val_pos != nil

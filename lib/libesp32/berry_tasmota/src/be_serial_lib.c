@@ -6,11 +6,9 @@
  * 2 wire communication - I2C
  *******************************************************************/
 #include "be_constobj.h"
-#include "esp_arduino_version.h"
+#include "esp_idf_version.h"
 
 extern int b_serial_init(bvm *vm);
-extern int b_config_tx_en(bvm *vm);
-extern int b_serial_config(bvm *vm);
 extern int b_serial_deinit(bvm *vm);
 
 extern int b_serial_write(bvm *vm);
@@ -18,7 +16,7 @@ extern int b_serial_read(bvm *vm);
 extern int b_serial_available(bvm *vm);
 extern int b_serial_flush(bvm *vm);
 
-#if (ESP_ARDUINO_VERSION < ESP_ARDUINO_VERSION_VAL(2, 0, 15))
+#if ESP_IDF_VERSION_MAJOR < 5
     #include "esp32-hal.h"
 #else
     // it should be #include "HardwareSerial.h"
@@ -85,14 +83,11 @@ class be_class_serial (scope: global, name: serial) {
     SERIAL_8O2, int(SERIAL_8O2)
 
     init, func(b_serial_init)
-    config_tx_en, func(b_config_tx_en)
     deinit, func(b_serial_deinit)
-    close, func(b_serial_deinit)
 
     write, func(b_serial_write)
     read, func(b_serial_read)
     available, func(b_serial_available)
     flush, func(b_serial_flush)
-    config, func(b_serial_config)
 }
 @const_object_info_end */

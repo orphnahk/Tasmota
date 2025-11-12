@@ -130,6 +130,8 @@ void EpdPrintLog29(void)
       DisplayFillScreen(last_row);
       renderer->DrawStringAt(0, epd_scroll, disp_screen_buffer[last_row], COLORED, 0);
 //      EpdDisplayFrame();
+
+      AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_APPLICATION "[%s]"), txt);
     }
   }
 }
@@ -155,10 +157,15 @@ void EpdRefresh29(void)  // Every second
 
     EpdDrawStringAt(0, 0, tftdt, COLORED, 0);
 */
-
-    if (Settings->display_mode > DM_USER_CONTROL) {
-      EpdPrintLog29();
-      renderer->Updateframe();
+    switch (Settings->display_mode) {
+      case 1:  // Text
+      case 2:  // Local
+      case 3:  // Local
+      case 4:  // Mqtt
+      case 5:  // Mqtt
+        EpdPrintLog29();
+        renderer->Updateframe();
+        break;
     }
 
 //    EpdDisplayFrame();

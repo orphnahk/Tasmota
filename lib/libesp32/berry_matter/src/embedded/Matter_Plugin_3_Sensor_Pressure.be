@@ -62,7 +62,11 @@ class Matter_Plugin_Sensor_Pressure : Matter_Plugin_Sensor
     # ====================================================================================================
     if   cluster == 0x0403              # ========== Pressure Measurement 2.4 p.98 ==========
       if   attribute == 0x0000          #  ---------- MeasuredValue / i16 ----------
-        return tlv_solo.set_or_nil(TLV.I2, int(self.shadow_value))
+        if self.shadow_value != nil
+          return tlv_solo.set(TLV.I2, int(self.shadow_value))
+        else
+          return tlv_solo.set(TLV.NULL, nil)
+        end
       elif attribute == 0x0001          #  ---------- MinMeasuredValue / i16 ----------
         return tlv_solo.set(TLV.I2, 500)  # 500 hPA
       elif attribute == 0x0002          #  ---------- MaxMeasuredValue / i16 ----------
@@ -72,22 +76,6 @@ class Matter_Plugin_Sensor_Pressure : Matter_Plugin_Sensor
     end
     return super(self).read_attribute(session, ctx, tlv_solo)
   end
-
-  #############################################################
-  # For Bridge devices
-  #############################################################
-  #############################################################
-  # web_values
-  #
-  # Show values of the remote device as HTML
-  def web_values()
-    import webserver
-    self.web_values_prefix()        # display '| ' and name if present
-    webserver.content_send(format("&#x26C5; %i hPa",
-                                         int(self.shadow_value)))
-  end
-  #############################################################
-  #############################################################
 
 end
 matter.Plugin_Sensor_Pressure = Matter_Plugin_Sensor_Pressure

@@ -18,7 +18,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma GCC optimize ("Os")
+#pragma GCC optimize ("O3")
 
 #include "AudioGeneratorAAC.h"
 

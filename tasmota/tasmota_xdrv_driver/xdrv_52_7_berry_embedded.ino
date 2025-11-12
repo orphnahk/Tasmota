@@ -23,16 +23,14 @@
 /*********************************************************************************************\
  * Handlers for Berry calls and async
  *
- * This is called right after Berry is initialized
- * and before the main loop is started.
 \*********************************************************************************************/
 
-const char be_berry_init_code[] =
+const char berry_prog[] =
 
   "import global "
 #ifdef USE_BERRY_PYTHON_COMPAT
   // enable python syntax compatibility mode
-  "do import python_compat end "      // don't keep 'python_compat' in global namespace
+  "import python_compat "
 #endif
   "import cb "
 
@@ -55,19 +53,8 @@ const char be_berry_init_code[] =
 
 #ifdef USE_AUTOCONF
   // autoconf
-  "do import autoconf end "
+  "import autoconf "
 #endif // USE_AUTOCONF
-
-#ifdef USE_EXTENSION_MANAGER
-  "do import extension_manager end "
-#endif
-
-#ifdef USE_BERRY_ANIMATION
-  "import animation "
-  #ifdef USE_BERRY_ANIMATION_DSL
-    "import animation_dsl "
-  #endif // USE_BERRY_ANIMATION_DSL
-#endif // USE_BERRY_ANIMATION
 
 #ifdef USE_LVGL
   "import lv "
@@ -95,7 +82,7 @@ const char be_berry_init_code[] =
   "import hue_bridge "
 #endif
 
-  "do import tapp end "     // we don't need to keep `tapp` in the global namespace
+  "import tapp "
 
 #ifdef USE_BERRY_DEBUG
   "import debug "
@@ -110,26 +97,6 @@ const char be_berry_init_code[] =
   "import matter "
   "global.matter_device = matter.Device() "
 #endif
-;
-
-
-/*********************************************************************************************\
- * This is called after `autoexec.be` is executed
-\*********************************************************************************************/
-const char be_post_autoxec_code[] =
-  ""                                    // fallback to empty string
-#if defined(USE_LVGL) && defined(USE_LVGL_HASPMOTA)
-  // HASPmota init
-  "do "
-    "import path "
-    "import display "
-    "if display.started() && path.exists('/pages.jsonl') "
-      "import haspmota "
-      "global.haspmota = haspmota "     // make sure the global is also defined
-      "haspmota.start() "
-    "end "
-  "end "
-#endif // USE_LVGL_HASPMOTA
-;
+  ;
 
 #endif  // USE_BERRY

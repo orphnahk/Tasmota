@@ -1,6 +1,6 @@
-# Test range objects and iteration
+# test for ranges
 
-# Helper function to expand range into list
+# expand a range object as list
 def expand(iter)
     var ret = []
     for i: iter
@@ -9,24 +9,19 @@ def expand(iter)
     return ret
 end
 
-# Test basic range syntax
 assert(expand(0..5) == [0, 1, 2, 3, 4, 5])
 assert(expand(0..0) == [0])
-assert(expand(5..0) == [])  # Invalid range
-
-# Test range methods
+assert(expand(5..0) == [])
 var r = 1..5
 assert(r.lower() == 1)
 assert(r.upper() == 5)
 assert(r.incr() == 1)
 
-# Test range() function with increment
 assert(expand(range(0,5)) == [0, 1, 2, 3, 4, 5])
 assert(expand(range(0,5,2)) == [0, 2, 4])
 assert(expand(range(0,5,12)) == [0])
 assert(expand(range(0,5,-1)) == [])
 
-# Test negative increment
 assert(expand(range(5,0,-1)) == [5, 4, 3, 2, 1, 0])
 assert(expand(range(5,0,-2)) == [5, 3, 1])
 assert(expand(range(5,5,-2)) == [5])
@@ -40,5 +35,5 @@ def assert_value_error(c)
     end
 end
 
-# Test error handling - zero increment should raise error
+# range with increment zero shoud raise an error
 assert_value_error("range(1,2,0)")

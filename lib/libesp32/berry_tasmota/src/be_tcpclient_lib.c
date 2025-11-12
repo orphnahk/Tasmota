@@ -6,6 +6,8 @@
  *******************************************************************/
 #include "be_constobj.h"
 
+#ifdef USE_WEBCLIENT
+
 extern int wc_tcp_init(bvm *vm);
 extern int wc_tcp_deinit(bvm *vm);
 
@@ -42,3 +44,5 @@ class be_class_tcpclient (scope: global, name: tcpclient) {
     readbytes, func(wc_tcp_readbytes)
 }
 @const_object_info_end */
+
+#endif // USE_WEBCLIENT

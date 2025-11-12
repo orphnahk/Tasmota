@@ -12,8 +12,7 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-#include "../../lv_conf_internal.h"
-#include "../../indev/lv_indev.h"
+#include "../../../lvgl.h"
 
 #if LV_USE_MONKEY != 0
 
@@ -24,29 +23,27 @@ extern "C" {
 /**********************
  *      TYPEDEFS
  **********************/
-
-typedef struct _lv_monkey_t lv_monkey_t;
-
-typedef struct {
-    int32_t min;
-    int32_t max;
-} lv_range_t;
+struct _lv_monkey;
+typedef struct _lv_monkey lv_monkey_t;
 
 typedef struct {
-    uint32_t min;
-    uint32_t max;
-} lv_urange_t;
-
-struct _lv_monkey_config_t {
-    /** Input device type */
+    /**< Input device type*/
     lv_indev_type_t type;
 
-    /** Monkey execution period */
-    lv_urange_t period_range;
+    /**< Monkey execution period*/
+    struct {
+        //! @cond Doxygen_Suppress
+        uint32_t min;
+        uint32_t max;
+        //! @endcond
+    } period_range;
 
-    /** The range of input value */
-    lv_range_t input_range;
-};
+    /**< The range of input value*/
+    struct {
+        int32_t min;
+        int32_t max;
+    } input_range;
+} lv_monkey_config_t;
 
 /**********************
  * GLOBAL PROTOTYPES

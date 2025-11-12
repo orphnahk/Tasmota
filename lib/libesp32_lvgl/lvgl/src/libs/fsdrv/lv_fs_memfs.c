@@ -40,17 +40,12 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "../../misc/lv_fs_private.h"
 #include "../../../lvgl.h"
 #if LV_USE_FS_MEMFS
 
 /*********************
  *      DEFINES
  *********************/
-
-#if !LV_FS_IS_VALID_LETTER(LV_FS_MEMFS_LETTER)
-    #error "Invalid drive letter"
-#endif
 
 /**********************
  *      TYPEDEFS
@@ -89,6 +84,7 @@ void lv_fs_memfs_init(void)
      * Register the file system interface in LVGL
      *--------------------------------------------------*/
 
+    /*Add a simple drive to open images*/
     lv_fs_drv_init(&fs_drv);
 
     /*Set up fields...*/
@@ -198,8 +194,8 @@ static lv_fs_res_t fs_seek(lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs
 /**
  * Give the position of the read write pointer
  * @param drv       pointer to a driver where this function belongs
- * @param file_p    pointer to a FILE variable
- * @param pos_p     pointer to store the result
+ * @param file_p    pointer to a FILE variable.
+ * @param pos_p     pointer to to store the result
  * @return LV_FS_RES_OK: no error, the file is read
  *         any error from lv_fs_res_t enum
  */

@@ -16,16 +16,11 @@ class TASCONSOLE {
     virtual void begin(uint32_t) = 0;
     virtual void flush() = 0;
     virtual size_t println() = 0;
-    virtual size_t println(const char*) = 0;
-    virtual size_t print(char*) = 0;
-    virtual size_t printf(const char*, char*, const char*&, const char*&, const char*&) = 0;
-    virtual size_t printf(char*) = 0;
+    virtual size_t print(char *) = 0;
+    virtual size_t printf(const char*, char *, const char*&, const char*&, const char*&) = 0;
+    virtual size_t printf(char *) = 0;
     virtual size_t read() = 0;
-    virtual size_t write(uint8_t) = 0;
-    virtual size_t write(const uint8_t *buf, size_t size) = 0;
-
     virtual size_t setRxBufferSize(size_t) = 0;
-//    virtual size_t setTxBufferSize(size_t) = 0;
   };
 
 public:
@@ -50,11 +45,7 @@ public:
     return object->println(); 
   }
 
-  size_t println(const char *string) {
-    return object->println(string); 
-  }
-
-  size_t print(char *string) {
+  size_t print(char * string) {
     return object->print(string); 
   }
 
@@ -70,21 +61,9 @@ public:
     return object->read();
   }
 
-  size_t write(uint8_t data) {
-    return object->write(data);
-  }
-
-  size_t write(const uint8_t *buf, size_t size) {
-    return object->write(buf, size);
-  }
-
   size_t setRxBufferSize(size_t rx_queue_len) {
     return object->setRxBufferSize(rx_queue_len); 
   }
-
-//  size_t setTxBufferSize(size_t rx_queue_len) {
-//    return object->setTxBufferSize(rx_queue_len); 
-//  }
 
   template< typename T >
   struct Model : Concept {
@@ -101,15 +80,10 @@ public:
 		  object.flush();
     }
 
-    size_t println() override {
+     size_t println() override {
       return object.println();
     }
-
-    size_t println(const char *string) override {
-      return object.println(string);
-    }
-
-    size_t print(char *string) override {
+     size_t print(char * string) override {
       return object.print(string);
     }
 
@@ -125,22 +99,9 @@ public:
       return object.read();
     }
 
-    size_t write(uint8_t data) override {
-      return object.write(data);
-    }
-
-    size_t write(const uint8_t *buf, size_t size) override {
-      return object.write(buf, size);
-    }
-
     size_t setRxBufferSize(size_t size) override {
 		  return object.setRxBufferSize(size);
     }
-
-//    size_t setTxBufferSize(size_t size) override {
-//		  return object.setTxBufferSize(size);
-//    }
-
   private:
     T object;
   };

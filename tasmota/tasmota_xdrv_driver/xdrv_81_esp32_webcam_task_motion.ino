@@ -143,7 +143,7 @@ and/or
 #include "sensor.h"
 #include "fb_gfx.h"
 #include "camera_pins.h"
-#include "jpeg_decoder.h"
+#include "esp_jpg_decode.h"
 //#include "img_converters.h"
 
 extern SemaphoreHandle_t WebcamMutex;
@@ -950,7 +950,7 @@ void CmndWebcamConvertFrame(void){
   int bnum = XdrvMailbox.index;
   // bnum is 1-4
   if ((bnum < 1) || (bnum > MAX_PICSTORE)){
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
   int format = 0;
   int scale = 0;
@@ -974,23 +974,22 @@ void CmndWebcamConvertFrame(void){
   }
   if (!wc_check_format(format)){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: Invalid format %d"), format+1);
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
   struct PICSTORE *ps = &Wc.picstore[bnum-1];
   if (!ps->buff){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: No pic at %d"), bnum);
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
   if (ps->format != PIXFORMAT_JPEG && format != PIXFORMAT_JPEG){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: ConvertFrame only go to or from JPEG"));
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
 
   // takes INDEX into store
   bool res = WcConvertFrame(bnum-1, format, scale);
-  if (res) {
-    ResponseCmndDone();
-  }
+  res? ResponseCmndDone(): ResponseCmndError();
+  return;
 }
 
 // Allows Berry to send native address, len, format, optional width, height
@@ -999,7 +998,8 @@ void CmndWebcamConvertFrame(void){
 void CmndWebcamSetPicture(void){
   int bnum = XdrvMailbox.index;
   if (!XdrvMailbox.data_len || bnum < 1 || bnum > MAX_PICSTORE) {
-    return;  // Command Error
+    ResponseCmndError();
+    return;
   }
   struct PICSTORE *p = &Wc.picstore[bnum-1];
 
@@ -1025,21 +1025,22 @@ void CmndWebcamSetPicture(void){
 
   if (res < 2){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: SetPicture expects 'addr len format [width height]'"));
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
   if (!wc_check_format(format)){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: Invalid format %d"), format+1);
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
   if (format != PIXFORMAT_JPEG && (!width || !height)){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: SetPicture: format %d needs width and height"), format+1);
-    return;  // Command Error
+    ResponseCmndError(); return;
   }
 
   bool allocres = pic_alloc(p, width, height, len, format, 1);
   if (!allocres){
     AddLog(LOG_LEVEL_ERROR, PSTR("CAM: SetPicture alloc failed"));
-    return;  // Command Error
+    ResponseCmndError();
+    return;
   }
 
   AddLog(LOG_LEVEL_DEBUG, PSTR("CAM: SetPicture addr:%u len:%d format%d [width%d height%d]"), addr, len, format, width, height);
@@ -1051,6 +1052,7 @@ void CmndWebcamSetPicture(void){
   // copy Berry data.  We can't free it, and Berry will
   memcpy(p->buff, (void *)addr, copylen);
   ResponseCmndDone();
+  return;
 }
 
 
@@ -1190,7 +1192,8 @@ void CmndWebcamGetMotionPixels(void) {
   if (-99 != XdrvMailbox.payload){
     bnum = XdrvMailbox.payload;
     if (bnum < 1 || bnum > MAX_PICSTORE) {
-      return;  // Command Error
+      ResponseCmndError();
+      return;
     }
   }
 
@@ -1214,7 +1217,8 @@ void CmndWebcamGetMotionPixels(void) {
   }
 
   if (!p){
-    return;  // Command Error
+    ResponseCmndError();
+    return;
   }
 
   if (bnum > 1){
@@ -1223,7 +1227,8 @@ void CmndWebcamGetMotionPixels(void) {
       memcpy(Wc.picstore[bnum-1].buff, p->buff, p->len);
       p = &Wc.picstore[bnum-1];
     } else {
-      return;  // Command Error
+      ResponseCmndError();
+      return;
     }
   }
 

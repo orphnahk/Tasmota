@@ -25,7 +25,6 @@
 #include <time.h>
 
 #ifdef ESP32
-#undef F
 #define F(A) A
 #endif
 

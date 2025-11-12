@@ -6,6 +6,8 @@
  *******************************************************************/
 #include "be_constobj.h"
 
+#ifdef USE_WEBCLIENT
+
 extern int wc_init(bvm *vm);
 extern int wc_deinit(bvm *vm);
 extern int wc_urlencode(bvm *vm);
@@ -70,3 +72,5 @@ class be_class_webclient (scope: global, name: webclient) {
     get_bytes, func(wc_getbytes)
 }
 @const_object_info_end */
+
+#endif // USE_WEBCLIENT

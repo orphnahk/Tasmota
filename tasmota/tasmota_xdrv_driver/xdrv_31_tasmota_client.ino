@@ -444,10 +444,8 @@ void TasmotaClient_Show(void) {
     char buffer[250];  // Keep size below 255 to stay within 8-bits index and len
     uint8_t len = TasmotaClient_receiveData(buffer, sizeof(buffer) -1);
 
-    if (len) {
-      buffer[len] = '\0';
-      ResponseAppend_P(PSTR(",\"TasmotaClient\":%s"), buffer);
-    }
+    buffer[len] = '\0';
+    ResponseAppend_P(PSTR(",\"TasmotaClient\":%s"), buffer);
   }
 }
 

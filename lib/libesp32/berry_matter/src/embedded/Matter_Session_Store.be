@@ -21,6 +21,9 @@ import matter
 
 #@ solidify:Matter_Session_Store,weak
 
+# for compilation
+class Matter_Expirable end
+
 #################################################################################
 #################################################################################
 #################################################################################
@@ -32,8 +35,7 @@ class Matter_Session_Store
   var device                      # device root object
   var sessions
   var fabrics                     # list of provisioned fabrics
-  static var _FABRICS  = "/_matter_fabrics.json"
-  static var _FABRICS_TEMP  = "/_matter_fabrics.tmp"   # temporary saved file before renaming to _FABRICS
+  static var _FABRICS  = "_matter_fabrics.json"
 
   #############################################################
   def init(device)
@@ -286,9 +288,9 @@ class Matter_Session_Store
     var sessions = self.sessions
     while i < size(sessions)
       var session = sessions[i]
-      log(format("MTR: session.resumption_id=%s vs %s", str(session.resumption_id), str(resumption_id)), 4)
+      tasmota.log(format("MTR: session.resumption_id=%s vs %s", str(session.resumption_id), str(resumption_id)), 4)
       if session.resumption_id == resumption_id && session.shared_secret != nil
-        # log(format("MTR: session.shared_secret=%s", str(session.shared_secret)), 4)
+        # tasmota.log(format("MTR: session.shared_secret=%s", str(session.shared_secret)), 4)
         session.update()
         return session
       end
@@ -316,13 +318,12 @@ class Matter_Session_Store
   #############################################################
   def save_fabrics()
     import json
-    import path
     try
       self.remove_expired()      # clean before saving
       var sessions_saved = 0
       var fabrics_saved = 0
 
-      var f = open(self._FABRICS_TEMP, "w")
+      var f = open(self._FABRICS, "w")
 
       f.write("[")
       for fab : self.fabrics.persistables()
@@ -330,22 +331,17 @@ class Matter_Session_Store
         if fabrics_saved > 0
           f.write(",")
         end
-        fab.writejson(f)
+        var f_json = fab.tojson()
+        f.write(f_json)
         fabrics_saved += 1
       end
       f.write("]")
 
       f.close()
-      # saving went well, now remove previous version and rename
-      path.remove(self._FABRICS)
-      if (path.rename(self._FABRICS_TEMP, self._FABRICS))
-        log(f"MTR: =Saved     {fabrics_saved} fabric(s) and {sessions_saved} session(s)", 2)
-        self.device.event_fabrics_saved()     # signal event
-      else
-        log(f"MTR: Saving Fabrics failed", 2)
-      end
+      tasmota.log(f"MTR: =Saved     {fabrics_saved} fabric(s) and {sessions_saved} session(s)", 2)
+      self.device.event_fabrics_saved()     # signal event
     except .. as e, m
-      log("MTR: Session_Store::save Exception:" + str(e) + "|" + str(m), 2)
+      tasmota.log("MTR: Session_Store::save Exception:" + str(e) + "|" + str(m), 2)
     end
   end
 
@@ -386,10 +382,10 @@ class Matter_Session_Store
         self.fabrics.push(fabric)
       end
 
-      log(format("MTR: Loaded %i fabric(s)", size(self.fabrics)), 2)
+      tasmota.log(format("MTR: Loaded %i fabric(s)", size(self.fabrics)), 2)
     except .. as e, m
       if e != "io_error"
-        log("MTR: Session_Store::load Exception:" + str(e) + "|" + str(m), 2)
+        tasmota.log("MTR: Session_Store::load Exception:" + str(e) + "|" + str(m), 2)
       end
     end
     # persistables are normally not expiring

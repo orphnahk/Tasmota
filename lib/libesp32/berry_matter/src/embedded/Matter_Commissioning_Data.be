@@ -41,9 +41,8 @@ class Matter_PBKDFParamRequest
   var SLEEPY_ACTIVE_INTERVAL
 
   def parse(b, idx)
-    var TLV = matter.TLV
     if idx == nil    idx = 0 end
-    var val = TLV.parse(b, idx)
+    var val = matter.TLV.parse(b, idx)
 
     self.initiatorRandom = val.getsubval(1)
     self.initiator_session_id = val.getsubval(2)
@@ -72,19 +71,18 @@ class Matter_PBKDFParamResponse
   var SLEEPY_ACTIVE_INTERVAL
 
   def tlv2raw(b)
-    var TLV = matter.TLV
-    var s = TLV.Matter_TLV_struct()
+    var s = matter.TLV.Matter_TLV_struct()
     # initiatorRandom
-    s.add_TLV(1, TLV.B1, self.initiatorRandom)
-    s.add_TLV(2, TLV.B1, self.responderRandom)
-    s.add_TLV(3, TLV.U2, self.responderSessionId)
+    s.add_TLV(1, matter.TLV.B1, self.initiatorRandom)
+    s.add_TLV(2, matter.TLV.B1, self.responderRandom)
+    s.add_TLV(3, matter.TLV.U2, self.responderSessionId)
     var s_pbkdf = s.add_struct(4)
-    s_pbkdf.add_TLV(1, TLV.U4, self.pbkdf_parameters_iterations)
-    s_pbkdf.add_TLV(2, TLV.B1, self.pbkdf_parameters_salt)
+    s_pbkdf.add_TLV(1, matter.TLV.U4, self.pbkdf_parameters_iterations)
+    s_pbkdf.add_TLV(2, matter.TLV.B1, self.pbkdf_parameters_salt)
     if self.SLEEPY_IDLE_INTERVAL != nil || self.SLEEPY_ACTIVE_INTERVAL != nil
       var s2 = s.add_struct(5)
-      s2.add_TLV(1, TLV.U4, self.SLEEPY_IDLE_INTERVAL)
-      s2.add_TLV(2, TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
+      s2.add_TLV(1, matter.TLV.U4, self.SLEEPY_IDLE_INTERVAL)
+      s2.add_TLV(2, matter.TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
     end
     return s.tlv2raw(b)
   end
@@ -100,7 +98,7 @@ class Matter_Pake1
   def parse(b, idx)
     if idx == nil    idx = 0 end
     var val = matter.TLV.parse(b, idx)
-    # log("MTR: parsed TLV: " + str(val), 4)
+    # tasmota.log("MTR: parsed TLV: " + str(val), 4)
 
     self.pA = val.getsubval(1)
     return self
@@ -116,11 +114,10 @@ class Matter_Pake2
   var cB                # 32 bytes
   
   def tlv2raw(b)
-    var TLV = matter.TLV
-    var s = TLV.Matter_TLV_struct()
+    var s = matter.TLV.Matter_TLV_struct()
     #
-    s.add_TLV(1, TLV.B1, self.pB)
-    s.add_TLV(2, TLV.B1, self.cB)
+    s.add_TLV(1, matter.TLV.B1, self.pB)
+    s.add_TLV(2, matter.TLV.B1, self.cB)
     return s.tlv2raw(b)
   end
 end
@@ -133,7 +130,7 @@ class Matter_Pake3
   def parse(b, idx)
     if idx == nil    idx = 0 end
     var val = matter.TLV.parse(b, idx)
-    # log("MTR: parsed TLV: " + str(val), 4)
+    # tasmota.log("MTR: parsed TLV: " + str(val), 4)
 
     self.cA = val.getsubval(1)
     return self
@@ -160,7 +157,7 @@ class Matter_Sigma1
     if idx == nil    idx = 0 end
     var val = matter.TLV.parse(b, idx)
     self.Msg1 = b[idx..]
-    # log("MTR: Sigma1 TLV=" + str(val), 4)
+    # tasmota.log("MTR: Sigma1 TLV=" + str(val), 4)
 
     self.initiatorRandom = val.getsubval(1)
     self.initiator_session_id = val.getsubval(2)
@@ -190,17 +187,16 @@ class Matter_Sigma2
   var SLEEPY_ACTIVE_INTERVAL
   
   def tlv2raw(b)
-    var TLV = matter.TLV
-    var s = TLV.Matter_TLV_struct()
+    var s = matter.TLV.Matter_TLV_struct()
     # initiatorRandom
-    s.add_TLV(1, TLV.B1, self.responderRandom)
-    s.add_TLV(2, TLV.U2, self.responderSessionId)
-    s.add_TLV(3, TLV.B1, self.responderEphPubKey)
-    s.add_TLV(4, TLV.B1, self.encrypted2)
+    s.add_TLV(1, matter.TLV.B1, self.responderRandom)
+    s.add_TLV(2, matter.TLV.U2, self.responderSessionId)
+    s.add_TLV(3, matter.TLV.B1, self.responderEphPubKey)
+    s.add_TLV(4, matter.TLV.B1, self.encrypted2)
     if self.SLEEPY_IDLE_INTERVAL != nil || self.SLEEPY_ACTIVE_INTERVAL != nil
       var s2 = s.add_struct(5)
-      s2.add_TLV(1, TLV.U4, self.SLEEPY_IDLE_INTERVAL)
-      s2.add_TLV(2, TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
+      s2.add_TLV(1, matter.TLV.U4, self.SLEEPY_IDLE_INTERVAL)
+      s2.add_TLV(2, matter.TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
     end
     return s.tlv2raw(b)
   end
@@ -218,16 +214,15 @@ class Matter_Sigma2Resume
   var SLEEPY_ACTIVE_INTERVAL
   
   def tlv2raw(b)
-    var TLV = matter.TLV
-    var s = TLV.Matter_TLV_struct()
+    var s = matter.TLV.Matter_TLV_struct()
     # initiatorRandom
-    s.add_TLV(1, TLV.B1, self.resumptionID)
-    s.add_TLV(2, TLV.B1, self.sigma2ResumeMIC)
-    s.add_TLV(3, TLV.U2, self.responderSessionID)
+    s.add_TLV(1, matter.TLV.B1, self.resumptionID)
+    s.add_TLV(2, matter.TLV.B1, self.sigma2ResumeMIC)
+    s.add_TLV(3, matter.TLV.U2, self.responderSessionID)
     if self.SLEEPY_IDLE_INTERVAL != nil || self.SLEEPY_ACTIVE_INTERVAL != nil
       var s2 = s.add_struct(4)
-      s2.add_TLV(1, TLV.U4, self.SLEEPY_IDLE_INTERVAL)
-      s2.add_TLV(2, TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
+      s2.add_TLV(1, matter.TLV.U4, self.SLEEPY_IDLE_INTERVAL)
+      s2.add_TLV(2, matter.TLV.U4, self.SLEEPY_ACTIVE_INTERVAL)
     end
     return s.tlv2raw(b)
   end
@@ -245,7 +240,7 @@ class Matter_Sigma3
     if idx == nil    idx = 0 end
     var val = matter.TLV.parse(b, idx)
     self.Msg3 = b[idx..]
-    # log("MTR: Sigma3 TLV=" + str(val), 4)
+    # tasmota.log("MTR: Sigma3 TLV=" + str(val), 4)
 
     self.TBEData3Encrypted = val.getsubval(1)
     return self

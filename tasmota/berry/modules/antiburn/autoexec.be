@@ -1,6 +1,5 @@
 # Register the command 'Antiburn'
 # Module loaded in memory only when the command is first used
-# rm Antiburn.tapp; zip Antiburn.tapp -j -0 antiburn/*
 
 var wd = tasmota.wd
 

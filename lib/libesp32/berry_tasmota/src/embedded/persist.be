@@ -2,7 +2,7 @@
 #- -#
 #- To solidify: -#
 #-
-  # load only persist_module and persist_module.init
+  # load only persis_module and persist_module.init
   import solidify
   solidify.dump(persist_module.init)
   # copy and paste into `be_persist_lib.c`
@@ -15,10 +15,17 @@ class Persist
   var _p
   var _dirty
 
-  def init()
-    self._p = {}
+  #- persist can be initialized with pre-existing values. The map is not copied so any change will be reflected -#
+  def init(m)
+    # print("Persist init")
+    if isinstance(m,map)
+      self._p = m.copy()   # need to copy instead?
+    else
+      self._p = {}
+    end
+    self.load(self._p, self._filename)
     self._dirty = false
-    self.load()
+    # print("Persist init")
   end
 
   #- virtual member getter, if a key does not exists return `nil` instead of exception -#
@@ -38,22 +45,13 @@ class Persist
     self._dirty = true
   end
   
-  #- force dirty -#
-  def dirty()
-    self._dirty = true
-  end
-
   def remove(k)
       self._p.remove(k)
       self._dirty = true
   end
 
-  def contains(k)
-      return self._p.contains(k)
-  end
-
-  def has(k)      # deprecated, use contains instead
-    return self._p.contains(k)
+  def has(k)
+      return self._p.has(k)
   end
 
   def find(k, d)
@@ -76,7 +74,7 @@ class Persist
         raise e, m
       end
       if isinstance(val, map)
-        self._p = val     # success
+        self._p = val     # sucess
       else
         print("BRY: failed to load _persist.json")
       end
@@ -88,26 +86,25 @@ class Persist
     # print("Loading")
   end
 
-  def save(force_save)
-    if self._dirty || force_save   # do not save if not dirty
-      var f       # file object
+  def save()
+    var f       # file object
+    try
+      f = open(self._filename, "w")
+      self.json_fdump(f)
+      f.close()
+    except .. as e, m
+      if f != nil f.close() end
+      f = nil
       try
         f = open(self._filename, "w")
-        self.json_fdump(f)
-        f.close()
-      except .. as e, m
-        if (f != nil) f.close() end
-        f = nil
-        try
-          f = open(self._filename, "w")
-          f.write('{}')   # fallback write empty map
-        except ..
-        end
-        if f != nil f.close() end
-        raise e, m
+        f.write('{}')   # fallback write empty map
+      except ..
       end
-      self._dirty = false
+      if f != nil f.close() end
+      raise e, m
     end
+    self._dirty = false
+    # print("Saving")
   end
 
   def json_fdump_any(f, v)

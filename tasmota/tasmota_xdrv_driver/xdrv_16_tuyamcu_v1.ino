@@ -1097,32 +1097,12 @@ void TuyaNormalPowerModePacketProcess(void)
     case TUYA_CMD_STATE:
       TuyaProcessStatePacket();
       break;
+
+    case TUYA_CMD_WIFI_RESET:
     case TUYA_CMD_WIFI_SELECT:
-    case TUYA_CMD_WIFI_RESET: {
-      const bool is_select = (Tuya.buffer[3] == TUYA_CMD_WIFI_SELECT);
-      const uint16_t payload_len = ((uint16_t)Tuya.buffer[4] << 8) | Tuya.buffer[5];
-
-      // Establish pairing mode - WIFI_RESET is assumed to be AP mode
-      uint8_t first = 0x01;
-      if (is_select && !(payload_len >= 1 && Tuya.buffer[6] == 0x01)) {
-        first = 0x00;
-      }
-
-      // Send ACK, then WIFI_STATE ramp up to cloud connected to re-enable MCU control
-      TuyaSendCmd(is_select ? TUYA_CMD_WIFI_SELECT : TUYA_CMD_WIFI_RESET);
-      uint8_t st = first;  TuyaSendCmd(TUYA_CMD_WIFI_STATE, &st, 1);
-      st = 0x02;           TuyaSendCmd(TUYA_CMD_WIFI_STATE, &st, 1);
-      st = 0x03;           TuyaSendCmd(TUYA_CMD_WIFI_STATE, &st, 1);
-      st = 0x04;           TuyaSendCmd(TUYA_CMD_WIFI_STATE, &st, 1);
-
-      AddLog(LOG_LEVEL_DEBUG, PSTR("TYA: WIFI_%s received (%s), sent WIFI_STATE ramp"),
-            is_select ? PSTR("SELECT") : PSTR("RESET"),
-            (first == 0x01) ? "AP" : "EZ");
-
-      // Now actually reset Tasmota WiFi
+      AddLog(LOG_LEVEL_DEBUG, PSTR("TYA: RX WiFi Reset"));
       TuyaResetWifi();
       break;
-    }
 
     case TUYA_CMD_WIFI_STATE:
       AddLog(LOG_LEVEL_DEBUG, PSTR("TYA: RX WiFi LED set ACK"));
@@ -1639,35 +1619,19 @@ void TuyaSensorsShow(bool json)
 }
 
 #ifdef USE_WEBSERVER
-#ifndef FIRMWARE_MINIMAL
-
-#define WEB_HANDLE_TUYA "d16"
 
 void TuyaAddButton(void) {
   if (AsModuleTuyaMS()) {
     WSContentSend_P(HTTP_TABLE100);
+    WSContentSend_P(PSTR("<tr><div></div>"));
     char stemp[33];
-    snprintf_P(stemp, sizeof(stemp), PSTR(D_JSON_IRHVAC_MODE));
-    WSContentSend_P(PSTR("<tr><td><button onclick='la(\"&" WEB_HANDLE_TUYA "=1\");'>%s</button></td>"),  // &d16 is related to WebGetArg("d16", tmp, sizeof(tmp));
-      (strlen(GetWebButton(TasmotaGlobal.devices_present))) ? HtmlEscape(GetWebButton(TasmotaGlobal.devices_present)).c_str() : stemp);
+    snprintf_P(stemp, sizeof(stemp), PSTR("" D_JSON_IRHVAC_MODE ""));
+    WSContentSend_P(HTTP_DEVICE_CONTROL, 26, TasmotaGlobal.devices_present + 1,
+      (strlen(GetWebButton(TasmotaGlobal.devices_present))) ? HtmlEscape(GetWebButton(TasmotaGlobal.devices_present)).c_str() : stemp, "");
     WSContentSend_P(PSTR("</tr></table>"));
   }
 }
 
-void TuyaWebGetArg(void) {
-  if (AsModuleTuyaMS()) {
-    char tmp[8];                       // WebGetArg numbers only
-    WebGetArg(PSTR(WEB_HANDLE_TUYA), tmp, sizeof(tmp));
-    if (strlen(tmp)) {
-      uint8_t dpId = TuyaGetDpId(TUYA_MCU_FUNC_MODESET);
-      char svalue[32];
-      snprintf_P(svalue, sizeof(svalue), PSTR("Tuyasend4 %d,%d"), dpId, !TuyaModeSet());
-      ExecuteWebCommand(svalue);
-    }
-  }
-}
-
-#endif  // not FIRMWARE_MINIMAL
 #endif  // USE_WEBSERVER
 
 /*********************************************************************************************\
@@ -1757,17 +1721,12 @@ bool Xdrv16(uint32_t function) {
         TuyaSensorsShow(1);
         break;
 #ifdef USE_WEBSERVER
-#ifndef FIRMWARE_MINIMAL
       case FUNC_WEB_ADD_MAIN_BUTTON:
         TuyaAddButton();
-        break;
-      case FUNC_WEB_GET_ARG:
-        TuyaWebGetArg();
         break;
       case FUNC_WEB_SENSOR:
         TuyaSensorsShow(0);
         break;
-#endif  // not FIRMWARE_MINIMAL
 #endif  // USE_WEBSERVER
       case FUNC_ACTIVE:
         result = true;

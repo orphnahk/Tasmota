@@ -206,7 +206,6 @@ ts_calibrate.init = def (m)
       try
         import re
         import path
-        import autoconf
 
         # try display.ini at root
         var disp_ini

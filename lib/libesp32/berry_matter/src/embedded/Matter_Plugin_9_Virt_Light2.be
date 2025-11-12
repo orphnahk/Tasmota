@@ -29,5 +29,6 @@ class Matter_Plugin_Virt_Light2 : Matter_Plugin_Light2
   static var ARG  = ""                              # no arg for virtual device
   static var ARG_HINT = "_Not used_"                # Hint for entering the Argument (inside 'placeholder')
   static var VIRTUAL = true                         # virtual device
+
 end
 matter.Plugin_Virt_Light2 = Matter_Plugin_Virt_Light2

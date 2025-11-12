@@ -392,7 +392,7 @@ size_t TasUpdateClass::writeStream(Stream &data) {
             return written;
         written += toRead;
 
-        yield();  // Ensure WDT does not trigger
+        delay(1);  // Fix solo WDT
     }
     return written;
 }

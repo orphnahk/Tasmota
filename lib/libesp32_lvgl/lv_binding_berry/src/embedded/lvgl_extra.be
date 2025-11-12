@@ -112,29 +112,11 @@ end
 class lv_style_prop_arr : bytes
   def init(l)
     if type(l) != 'instance' || !isinstance(l, list)  raise "value_error", "argument must be a list" end
-    super(self).init(size(l))
+    super(self).init(size(l) * 4)
 
     for e: l
-      self.add(int(e))
+      self.add(int(e), 4)
     end
-  end
-end
-
-class lv_color_arr : bytes
-  def init(l)
-    if type(l) != 'instance' || !isinstance(l, list)  raise "value_error", "argument must be a list" end
-    super(self).init(size(l) * 3)
-    for e: l
-      self.add(int(e), 3)
-    end
-  end
-
-  def item(n)
-    return lv.color(self.get(n * 3, 3))
-  end
-
-  def setitem(n, v)
-    self.set(n * 3, int(v), 3)
   end
 end
 
@@ -156,7 +138,6 @@ lv_extra.lv_int_arr = lv_int_arr
 lv_extra.lv_point_arr = lv_point_arr
 lv_extra.lv_style_prop_arr = lv_style_prop_arr
 lv_extra.lv_str_arr = lv_str_arr
-lv_extra.lv_color_arr = lv_color_arr
 
 lv_extra.init = def (m)
   import global
@@ -170,7 +151,6 @@ lv_extra.init = def (m)
   lv.point_arr = m.lv_point_arr
   lv.style_prop_arr = m.lv_style_prop_arr
   lv.str_arr = m.lv_str_arr
-  lv.color_arr = m.lv_color_arr
 
   return m
 end

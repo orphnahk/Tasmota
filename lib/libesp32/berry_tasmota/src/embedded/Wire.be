@@ -6,16 +6,15 @@
 class Wire
   var bus
 
-  def read_bytes(addr, reg, sz)
+  def read_bytes(addr,reg,sz)
     self._begin_transmission(addr)
     self._write(reg)
-    self._end_transmission(true)
-    self._request_from(addr, sz)
-    var ret = bytes(sz)
+    self._end_transmission(false)
+    self._request_from(addr,sz)
+    var ret=bytes(sz)
     while (self._available())
-      ret.append(self._read())
+      ret..self._read()
     end
-    self._end_transmission(true)
     return ret
   end
   

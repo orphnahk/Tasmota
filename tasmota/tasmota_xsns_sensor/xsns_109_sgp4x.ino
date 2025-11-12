@@ -81,7 +81,7 @@ void sgp4x_Init(void)
   uint16_t serialNumber[serialNumberSize];
   uint16_t error;
 
-  sgp4x.begin(I2cGetWire());
+  sgp4x.begin(Wire);
   error = sgp4x.getSerialNumber(serialNumber, serialNumberSize);
 
   if (error) {
@@ -267,13 +267,11 @@ void Sgp4xShow(bool json)
       if (sgp4x_type == TYPE_SGP41) {
         ResponseAppend_P(PSTR(",\"SGP41\":{\"VOC_" D_JSON_RAW "\":%d,\"NOX_" D_JSON_RAW "\":%d,\"" D_TVOC "\":%d,\"" D_NOX "\":%d"), srawVoc, srawNox, voc_index_sgp4x, nox_index_sgp4x);
       } else {
-        ResponseAppend_P(PSTR(",\"SGP40\":{\"VOC_" D_JSON_RAW "\":%d,\"" D_TVOC "\":%d"), srawVoc, voc_index_sgp4x);
+        ResponseAppend_P(PSTR(",\"SGP40\":{\"VOC_" D_JSON_RAW "\":%d,,\"" D_TVOC "\":%d,"), srawVoc, voc_index_sgp4x);
       }
       ResponseJsonEnd();
 #ifdef USE_DOMOTICZ
-      if (0 == TasmotaGlobal.tele_period) {
-        DomoticzSensor(DZ_AIRQUALITY, voc_index_sgp4x);
-      }
+      if (0 == TasmotaGlobal.tele_period) DomoticzSensor(DZ_AIRQUALITY, srawVoc);
 #endif  // USE_DOMOTICZ
 #ifdef USE_WEBSERVER
     } else {

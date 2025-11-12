@@ -135,11 +135,11 @@ class Matter_UDPServer
       var from_addr = self.udp_socket.remote_ip
       var from_port = self.udp_socket.remote_port
       if tasmota.loglevel(4)
-        log(format("MTR: UDP received from [%s]:%i", from_addr, from_port), 4)
+        tasmota.log(format("MTR: UDP received from [%s]:%i", from_addr, from_port), 4)
       end
-      # log("MTR: Perf/UDP_received = " + str(debug.counters()), 4)
+      # tasmota.log("MTR: Perf/UDP_received = " + str(debug.counters()), 4)
       if self.dispatch_cb
-        # profiler.log("udp_loop_dispatch")
+        profiler.log("udp_loop_dispatch")
         self.dispatch_cb(packet, from_addr, from_port)
       end
       profiler.dump(2)
@@ -165,11 +165,11 @@ class Matter_UDPServer
     
     if ok
       if tasmota.loglevel(4)
-        log(format("MTR: sending packet to '[%s]:%i'", packet.addr, packet.port), 4)
+        tasmota.log(format("MTR: sending packet to '[%s]:%i'", packet.addr, packet.port), 4)
       end
     else
       if tasmota.loglevel(3)
-        log(format("MTR: error sending packet to '[%s]:%i'", packet.addr, packet.port), 3)
+        tasmota.log(format("MTR: error sending packet to '[%s]:%i'", packet.addr, packet.port), 3)
       end
     end
     return ok
@@ -186,18 +186,18 @@ class Matter_UDPServer
   # If all retries expired, remove packet and log.
   def _resend_packets()
     var idx = 0
-    while (idx < size(self.packets_sent)) && (idx < 4)              # limit to 4 packets in output queue
+    while idx < size(self.packets_sent)
       var packet = self.packets_sent[idx]
       if tasmota.time_reached(packet.next_try)
         if packet.retries <= self.RETRIES
-          log(f"MTR: .          Resending packet id={packet.msg_id} {packet.retries=}", 3)
+          tasmota.log("MTR: .          Resending packet id=" + str(packet.msg_id), 4)
           self.send(packet)
           packet.next_try = tasmota.millis() + self._backoff_time(packet.retries)
           packet.retries += 1
           idx += 1
         else
           self.packets_sent.remove(idx)
-          log(format("MTR: .          (%6i) Unacked packet '[%s]:%i' msg_id=%i", packet.session_id, packet.addr, packet.port, packet.msg_id), 3)
+          tasmota.log(format("MTR: .          (%6i) Unacked packet '[%s]:%i' msg_id=%i", packet.session_id, packet.addr, packet.port, packet.msg_id), 3)
         end
       else
         idx += 1
@@ -211,14 +211,14 @@ class Matter_UDPServer
     var id = msg.ack_message_counter
     var exch = msg.exchange_id
     if id == nil   return end
-    # log("MTR: receveived ACK id="+str(id), 4)
+    # tasmota.log("MTR: receveived ACK id="+str(id), 4)
     var idx = 0
     while idx < size(self.packets_sent)
       var packet = self.packets_sent[idx]
       if packet.msg_id == id && packet.exchange_id == exch
         self.packets_sent.remove(idx)
-        if tasmota.loglevel(3)
-          log("MTR: .          Removed packet from sending list id=" + str(id), 3)
+        if tasmota.loglevel(4)
+          tasmota.log("MTR: .          Removed packet from sending list id=" + str(id), 4)
         end
       else
         idx += 1

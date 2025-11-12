@@ -407,19 +407,17 @@ void ButtonHandler(void) {
 
     }
 #ifdef USE_ADC
-#ifndef FIRMWARE_MINIMAL
     else if (PinUsed(GPIO_ADC_BUTTON, button_index)) {
       button = AdcGetButton(Pin(GPIO_ADC_BUTTON, button_index));
     }
     else if (PinUsed(GPIO_ADC_BUTTON_INV, button_index)) {
       button = AdcGetButton(Pin(GPIO_ADC_BUTTON_INV, button_index));
     }
-#endif  // FIRMWARE_MINIMAL
 #endif  // USE_ADC
 
     XdrvMailbox.index = button_index;
     XdrvMailbox.payload = button;
-    XdrvMailbox.command_code = (Button.last_state[button_index] & 0xFF) | ((Button.press_counter[button_index] & 0xFF) << 8);
+    XdrvMailbox.command_code = Button.last_state[button_index];
     if (XdrvCall(FUNC_BUTTON_PRESSED)) {
       // Serviced
     }

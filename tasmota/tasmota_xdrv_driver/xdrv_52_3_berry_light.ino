@@ -32,18 +32,9 @@
 extern "C" {
 
   // push the light status object on the vm stack
-  void push_getlight(bvm *vm, uint32_t light_num, int32_t idx_name) { // idx_name is the index of name parameter, or 0 if none
+  void push_getlight(bvm *vm, uint32_t light_num) {
     bool data_present = false;      // do we have relevant data
-
-    if (idx_name != 0) {  // argument is name
-      be_pushnil(vm);
-      be_pushvalue(vm, 2);
-      // (-2) nil, (-1) string -> if key matches then update (-2)
-    } else {
-      be_newobject(vm, "map");
-      // (-2) map instance, (-1) map
-    }
-    
+    be_newobject(vm, "map");
     // check if the light exist
     // TasmotaGlobal.devices_present
     // Light.device
@@ -114,7 +105,7 @@ extern "C" {
           }
         }
       } else { // Light.pwm_multi_channels
-        if ((light_num >= 0) && (light_num < LST_MAX) && (light_num < Light.subtype)) {
+        if ((light_num >= 0) && (light_num < LST_MAX)) {
           data_present = true;
           be_map_insert_bool(vm, "power", Light.power & (1 << light_num));
           be_map_insert_int(vm, "bri", Light.current_color[light_num]);
@@ -137,19 +128,12 @@ extern "C" {
   int32_t l_getlight(bvm *vm);
   int32_t l_getlight(bvm *vm) {
     int32_t top = be_top(vm); // Get the number of arguments
-    if (top == 0 || (top >= 1 && be_isint(vm, 1))) {
+    if (top == 0 || (top == 1 && be_isint(vm, 1))) {
       int32_t light_num = 0;
-      if (top >= 1) {
+      if (top > 1) {
         light_num = be_toint(vm, 1);
       }
-
-      if (top >= 2 && be_isstring(vm, 2)) { // argument is name
-        push_getlight(vm, light_num, 2);    // pass the name to filter value
-      } else {
-        be_newobject(vm, "map");
-        push_getlight(vm, light_num, 0);    // request the full map
-      }
-      
+      push_getlight(vm, light_num);
       be_return(vm); // Return
     }
     be_raise(vm, kTypeError, nullptr);
@@ -237,75 +221,59 @@ extern "C" {
         }
       }
 
-      if (!Light.pwm_multi_channels) {
-        // ct
-        if (has_ct) {
-          light_controller.changeCTB(val_ct, light_state.getBriCT());
-        }
+      // ct
+      if (has_ct) {
+        light_controller.changeCTB(val_ct, light_state.getBriCT());
+      }
 
-        // hue
-        if (has_hue) {
-          uint8_t sat;
-          uint8_t bri;
-          light_state.getHSB(nullptr, &sat, &bri);
-          light_controller.changeHSB(val_hue, sat, bri);
-        }
+      // hue
+      if (has_hue) {
+        uint8_t sat;
+        uint8_t bri;
+        light_state.getHSB(nullptr, &sat, &bri);
+        light_controller.changeHSB(val_hue, sat, bri);
+      }
 
-        // sat
-        if (has_sat) {
-          uint16_t hue;
-          uint8_t bri;
-          light_state.getHSB(&hue, nullptr, &bri);
-          light_controller.changeHSB(hue, val_sat, bri);
-        }
+      // sat
+      if (has_sat) {
+        uint16_t hue;
+        uint8_t bri;
+        light_state.getHSB(&hue, nullptr, &bri);
+        light_controller.changeHSB(hue, val_sat, bri);
+      }
 
-        // rgb
-        if (has_rgb) {
-          SBuffer buf = SBuffer::SBufferFromHex(val_rgb_s, strlen(val_rgb_s));
-          uint8_t channels[LST_MAX] = {};
-          memcpy(channels, buf.buf(), buf.len() > LST_MAX ? LST_MAX : buf.len());
-          bool on = false;    // if all are zero, then only set power off
-          for (uint32_t i = 0; i < LST_MAX; i++) {
-            if (channels[i] != 0) { on = true; }
-          }
-          if (on) {
-            light_controller.changeChannels(channels);
-          } else {
-            ExecuteCommandPower(idx + 1, POWER_OFF, SRC_BERRY);
-          }
+      // rgb
+      if (has_rgb) {
+        SBuffer buf = SBuffer::SBufferFromHex(val_rgb_s, strlen(val_rgb_s));
+        uint8_t channels[LST_MAX] = {};
+        memcpy(channels, buf.buf(), buf.len() > LST_MAX ? LST_MAX : buf.len());
+        bool on = false;    // if all are zero, then only set power off
+        for (uint32_t i = 0; i < LST_MAX; i++) {
+          if (channels[i] != 0) { on = true; }
         }
-
-        // channels
-        if (has_channels) {
-          if (val_on) {
-            light_controller.changeChannels(channels);
-          } else {
-            ExecuteCommandPower(idx + 1, POWER_OFF, SRC_BERRY);
-          }
-        }
-
-        // bri is done after channels and rgb
-        // bri
-        if (has_bri) {
-          if (light_controller.isCTRGBLinked()) {
-            light_controller.changeBri(val_bri);
-          } else {
-            if (idx == 0) {
-              light_controller.changeBriRGB(val_bri);
-            } else {
-              light_controller.changeBriCT(val_bri);
-            }
-          }
-        }
-      } else {
-        // multi-channel (SetOption68 1)
-        // bri
-        if (has_bri) {
-          LightSetBri(Light.device + idx, val_bri);
+        if (on) {
+          light_controller.changeChannels(channels);
+        } else {
+          ExecuteCommandPower(idx + 1, POWER_OFF, SRC_BERRY);
         }
       }
 
-      push_getlight(vm, idx, 0);
+      // channels
+      if (has_channels) {
+        if (val_on) {
+          light_controller.changeChannels(channels);
+        } else {
+          ExecuteCommandPower(idx + 1, POWER_OFF, SRC_BERRY);
+        }
+      }
+
+      // bri is done after channels and rgb
+      // bri
+      if (has_bri) {
+        light_controller.changeBri(val_bri);
+      }
+
+      push_getlight(vm, idx);
       be_return(vm); // Return
     }
     be_raise(vm, kTypeError, nullptr);

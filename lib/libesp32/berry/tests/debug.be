@@ -1,10 +1,9 @@
-# Test debug module functionality
 import debug
 
 class A end
-debug.attrdump(A)   # Should not crash
+debug.attrdump(A)   #- should not crash -#
 
-# Test debug.caller() function
+# debug.caller()
 def caller_name_chain()
     import debug
     import introspect

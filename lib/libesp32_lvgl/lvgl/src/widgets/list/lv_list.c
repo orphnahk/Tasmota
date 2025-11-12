@@ -6,7 +6,6 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "../../core/lv_obj_class_private.h"
 #include "lv_list.h"
 #include "../../layouts/flex/lv_flex.h"
 #include "../../display/lv_display.h"
@@ -19,9 +18,7 @@
 /*********************
  *      DEFINES
  *********************/
-#define MY_CLASS        (&lv_list_class)
-#define MY_CLASS_BUTTON (&lv_list_button_class)
-#define MY_CLASS_TEXT   (&lv_list_text_class)
+#define MV_CLASS &lv_list
 
 /**********************
  *      TYPEDEFS
@@ -34,21 +31,21 @@ const lv_obj_class_t lv_list_class = {
     .base_class = &lv_obj_class,
     .width_def = (LV_DPI_DEF * 3) / 2,
     .height_def = LV_DPI_DEF * 2,
-    .name = "lv_list",
+    .name = "list",
 };
 
 const lv_obj_class_t lv_list_button_class = {
     .base_class = &lv_button_class,
     .width_def = LV_PCT(100),
     .height_def = LV_SIZE_CONTENT,
-    .name = "lv_list_button",
+    .name = "list-btn",
 };
 
 const lv_obj_class_t lv_list_text_class = {
     .base_class = &lv_label_class,
     .width_def = LV_PCT(100),
     .height_def = LV_SIZE_CONTENT,
-    .name = "lv_list_text",
+    .name = "list-text",
 };
 
 /**********************
@@ -66,7 +63,7 @@ const lv_obj_class_t lv_list_text_class = {
 lv_obj_t * lv_list_create(lv_obj_t * parent)
 {
     LV_LOG_INFO("begin");
-    lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS, parent);
+    lv_obj_t * obj = lv_obj_class_create_obj(&lv_list_class, parent);
     lv_obj_class_init_obj(obj);
     lv_obj_set_flex_flow(obj, LV_FLEX_FLOW_COLUMN);
     return obj;
@@ -76,7 +73,7 @@ lv_obj_t * lv_list_add_text(lv_obj_t * list, const char * txt)
 {
     LV_LOG_INFO("begin");
 
-    lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS_TEXT, list);
+    lv_obj_t * obj = lv_obj_class_create_obj(&lv_list_text_class, list);
     lv_obj_class_init_obj(obj);
     lv_label_set_text(obj, txt);
     return obj;
@@ -85,7 +82,7 @@ lv_obj_t * lv_list_add_text(lv_obj_t * list, const char * txt)
 lv_obj_t * lv_list_add_button(lv_obj_t * list, const void * icon, const char * txt)
 {
     LV_LOG_INFO("begin");
-    lv_obj_t * obj = lv_obj_class_create_obj(MY_CLASS_BUTTON, list);
+    lv_obj_t * obj = lv_obj_class_create_obj(&lv_list_button_class, list);
     lv_obj_class_init_obj(obj);
     lv_obj_set_flex_flow(obj, LV_FLEX_FLOW_ROW);
 
@@ -99,7 +96,7 @@ lv_obj_t * lv_list_add_button(lv_obj_t * list, const void * icon, const char * t
     if(txt) {
         lv_obj_t * label = lv_label_create(obj);
         lv_label_set_text(label, txt);
-        lv_label_set_long_mode(label, LV_LABEL_LONG_MODE_SCROLL_CIRCULAR);
+        lv_label_set_long_mode(label, LV_LABEL_LONG_SCROLL_CIRCULAR);
         lv_obj_set_flex_grow(label, 1);
     }
 

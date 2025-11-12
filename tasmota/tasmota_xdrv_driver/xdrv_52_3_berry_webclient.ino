@@ -21,6 +21,8 @@
 
 #ifdef USE_BERRY
 
+#ifdef USE_WEBCLIENT
+
 #include <berry.h>
 #include "HttpClientLight.h"
 #include "be_sys.h"
@@ -748,4 +750,5 @@ extern "C" {
   }
 }
 
+#endif // USE_WEBCLIENT
 #endif  // USE_BERRY

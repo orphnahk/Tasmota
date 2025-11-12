@@ -122,7 +122,7 @@ static int m_toptr(bvm *vm)
     if (top >= 1) {
         bvalue *v = be_indexof(vm, 1);
         if (var_type(v) == BE_STRING) {
-            be_pushcomptr(vm, (void*)be_tostring(vm, 1));
+            be_pushcomptr(vm, be_tostring(vm, 1));
             be_return(vm);
         } else if (var_basetype(v) >= BE_FUNCTION || var_type(v) == BE_COMPTR) {
             be_pushcomptr(vm, var_toobj(v));
@@ -132,20 +132,6 @@ static int m_toptr(bvm *vm)
             be_return(vm);
         } else {
             be_raise(vm, "value_error", "unsupported for this type");
-        }
-    }
-    be_return_nil(vm);
-}
-
-static int m_solidified(bvm *vm)
-{
-    int top = be_top(vm);
-    if (top >= 1) {
-        bvalue *v = be_indexof(vm, 1);
-        if (var_basetype(v) >= BE_FUNCTION || var_type(v) == BE_COMPTR) {
-            bbool isconst = gc_isconst((bgcobject*)var_toobj(v));
-            be_pushbool(vm, isconst);
-            be_return(vm);
         }
     }
     be_return_nil(vm);
@@ -182,11 +168,7 @@ static int m_getmodule(bvm *vm)
     if (top >= 1) {
         bvalue *v = be_indexof(vm, 1);
         if (var_isstr(v)) {
-            bbool no_cache = bfalse;
-            if (top >= 2) {
-                no_cache = be_tobool(vm, 2);
-            }
-            int ret = be_module_load_nocache(vm, var_tostr(v), no_cache);
+            int ret = be_module_load(vm, var_tostr(v));
             if (ret == BE_OK) {
                 be_return(vm);
             }
@@ -263,7 +245,6 @@ be_native_module_attr_table(introspect) {
 
     be_native_module_function("toptr", m_toptr),
     be_native_module_function("fromptr", m_fromptr),
-    be_native_module_function("solidified", m_solidified),
 
     be_native_module_function("name", m_name),
 
@@ -285,7 +266,6 @@ module introspect (scope: global, depend: BE_USE_INTROSPECT_MODULE) {
 
     toptr, func(m_toptr)
     fromptr, func(m_fromptr)
-    solidified, func(m_solidified)
 
     name, func(m_name)
 

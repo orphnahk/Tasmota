@@ -43,9 +43,7 @@ void HDMI_OnReady(class CEC_Device* self, int logical_address) {
 
 void HDMI_OnReceive(class CEC_Device *self, int32_t from, int32_t to, uint8_t* buf, size_t len, bool ack)
 {
-  if (HighestLogLevel() >= LOG_LEVEL_DEBUG) {
-  	AddLog(LOG_LEVEL_DEBUG, "CEC: Packet received: (%1X->%1X) %1X%1X%*_H %s", from, to, from, to, len, buf, ack ? PSTR("ACK") : PSTR("NAK"));
-  }
+	AddLog(LOG_LEVEL_DEBUG, "CEC: Packet received: (%1X->%1X) %1X%1X%*_H %s", from, to, from, to, len, buf, ack ? PSTR("ACK") : PSTR("NAK"));
 
   Response_P(PSTR("{\"HdmiReceived\":{\"From\":%i,\"To\":%i,\"Data\":\"%*_H\"}}"), from, to, len, buf);
   if (to == self->getLogicalAddress() || to == 0x0F) {
@@ -57,9 +55,7 @@ void HDMI_OnReceive(class CEC_Device *self, int32_t from, int32_t to, uint8_t* b
 void HDMI_OnTransmit(class CEC_Device *self, uint8_t* buf, size_t len, bool ack)
 {
 	// This is called after a frame is transmitted.
-  if (HighestLogLevel() >= LOG_LEVEL_DEBUG) {
-    AddLog(LOG_LEVEL_DEBUG, "CEC: Packet sent: %*_H %s", len, buf, ack ? PSTR("ACK") : PSTR("NAK"));
-  }
+  AddLog(LOG_LEVEL_DEBUG, "CEC: Packet sent: %*_H %s", len, buf, ack ? PSTR("ACK") : PSTR("NAK"));
 }
 
 // singleton for HDMI CEC object, could be expanded if we manage multiple HDMI in parallel
@@ -114,23 +110,13 @@ void CmndHDMISendRaw(void) {
     RemoveSpace(XdrvMailbox.data);
     SBuffer buf = SBuffer::SBufferFromHex(XdrvMailbox.data, strlen(XdrvMailbox.data));
     if (buf.len() > 0 && buf.len() < 16) {
-      bool success = HDMI_CEC_device->transmitRaw(buf.buf(), buf.len());
-      if (success) {
-        bool transmitting = true;
-        while (transmitting) {
-          HDMI_CEC_device->run();
-          transmitting = HDMI_CEC_device->isTransmitting();
-          if (transmitting) {
-            delay(1);  // wait until next ms
-          }
-        }
-        ResponseCmndDone();
-      } else {
-        ResponseCmndChar_P(PSTR("Sending failed"));
-      }
+      HDMI_CEC_device->transmitRaw(buf.buf(), buf.len());
+      ResponseCmndDone();
     } else {
       ResponseCmndChar_P(PSTR("Buffer too large"));
     }
+  } else {
+    ResponseCmndError();
   }
 }
 
@@ -169,20 +155,8 @@ void CmndHDMISend(void) {
       const char * payload = root.getStr(PSTR("Data"));
       SBuffer buf = SBuffer::SBufferFromHex(payload, strlen(payload));
       if (buf.len() > 0 && buf.len() < 15) {
-        bool success = HDMI_CEC_device->transmitFrame(to, buf.buf(), buf.len());
-        if (success) {
-          bool transmitting = true;
-          while (transmitting) {
-            HDMI_CEC_device->run();
-            transmitting = HDMI_CEC_device->isTransmitting();
-            if (transmitting) {
-              delay(1);  // wait until next ms
-            }
-          }
-          ResponseCmndDone();
-        } else {
-          ResponseCmndChar_P(PSTR("Sending failed"));
-        }
+        HDMI_CEC_device->transmitFrame(to, buf.buf(), buf.len());
+        ResponseCmndDone();
       } else {
         if (buf.len() == 0) {
           ResponseCmndChar_P(PSTR("Buffer empty"));
@@ -194,13 +168,8 @@ void CmndHDMISend(void) {
       // Hex
       SBuffer buf = SBuffer::SBufferFromHex(XdrvMailbox.data, strlen(XdrvMailbox.data));
       if (buf.len() > 0 && buf.len() < 15) {
-        bool success = HDMI_CEC_device->transmitFrame(0, buf.buf(), buf.len());
-        if (success) {
-          HDMI_CEC_device->run();
-          ResponseCmndDone();
-        } else {
-          ResponseCmndChar_P(PSTR("Sending failed"));
-        }
+        HDMI_CEC_device->transmitFrame(0, buf.buf(), buf.len());
+        ResponseCmndDone();
       } else {
         if (buf.len() == 0) {
           ResponseCmndChar_P(PSTR("Buffer empty"));
@@ -209,6 +178,8 @@ void CmndHDMISend(void) {
         }
       }
     }
+  } else {
+    ResponseCmndError();
   }
 }
 
@@ -236,7 +207,7 @@ void CmndHDMIType(void) {
 // The buffer must be allocated to uint8_t[256] by caller
 // Only checksum is checked
 bool ReadEdid256(uint8_t *buf) {
-  if (!TasmotaGlobal.i2c_enabled[0]) { return true; }    // abort if I2C is not started
+  if (!TasmotaGlobal.i2c_enabled) { return true; }    // abort if I2C is not started
 
   if (I2cReadBuffer(HDMI_EDID_ADDRESS,   0, buf      , 128)) { return true; }
   if (I2cReadBuffer(HDMI_EDID_ADDRESS, 128, buf + 128, 128)) { return true; }
@@ -268,9 +239,7 @@ bool ReadEdid256(uint8_t *buf) {
 // Return 0x0000 if not found
 uint16_t HDMIGetPhysicalAddress(void) {
   uint8_t buf[256] = {0};
-  if (HighestLogLevel() >= LOG_LEVEL_DEBUG) {
-    AddLog(LOG_LEVEL_DEBUG, PSTR("CEC: trying to read physical address"));
-  }
+  AddLog(LOG_LEVEL_DEBUG, PSTR("CEC: trying to read physical address"));
   if (ReadEdid256(buf)) { return 0x0000; }      // unable to get an address
 
   uint8_t edid_extensions = buf[126];
@@ -300,9 +269,7 @@ uint16_t HDMIGetPhysicalAddress(void) {
       // 030C00 for "HDMI Licensing, LLC"
       if (buf[idx+1] == 0x03 && buf[idx+2] == 0x0C && buf[idx+3] == 0x00) {
         uint16_t addr = (buf[idx+4] << 8) | buf[idx+5];
-        if (HighestLogLevel() >= LOG_LEVEL_DEBUG) {
-          AddLog(LOG_LEVEL_DEBUG, "CEC: physical address found: 0x%04X", addr);
-        }
+        AddLog(LOG_LEVEL_DEBUG, "CEC: physical address found: 0x%04X", addr);
         return addr;
       }
     }
@@ -310,9 +277,7 @@ uint16_t HDMIGetPhysicalAddress(void) {
     idx += 1 + number_of_bytes;
   }
 
-  if (HighestLogLevel() >= LOG_LEVEL_DEBUG) {
-    AddLog(LOG_LEVEL_DEBUG, "CEC: physical address not found");
-  }
+  AddLog(LOG_LEVEL_DEBUG, "CEC: physical address not found");
   return 0x0000;    // TODO
 }
 

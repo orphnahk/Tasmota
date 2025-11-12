@@ -384,9 +384,9 @@ bool ArtNetStart(void) {
         if ((Settings->light_pixels != artnet_conf.rows * artnet_conf.cols + artnet_conf.offs) || (Settings->light_rotation != 0)) {
           Settings->light_pixels = artnet_conf.rows * artnet_conf.cols + artnet_conf.offs;
           Settings->light_rotation = 0;
-          Ws2812InitStrip();
+          Ws2812ReinitStrip();
         } else {
-          Ws2812Clear(true);
+          Ws2812Clear();
         }
       }
 
