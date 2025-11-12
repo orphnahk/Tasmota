@@ -192,7 +192,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
         var bri_254 = val.findsubval(0)  # Hue 0..254
         self.set_bri(bri_254)
         ctx.log = "bri:"+str(bri_254)
-        self.publish_command('Bri', bri_254, 'Dimmer', tasmota.scale_uint(bri_254, 0, 254, 0, 100))
+        self.publish_command('Bri', bri_254, 'Dimmer', tasmota.scale_uint(bri_254, 0, 254, 0, 100), 'Power', 1)
         return true
       elif command == 0x0001            # ---------- Move ----------
         # TODO, we don't really support it
