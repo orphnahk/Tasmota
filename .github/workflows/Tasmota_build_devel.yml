@@ -28,12 +28,12 @@ jobs:
       - name: Install clang compiler
         run: |
           sudo apt-get install -f clang
-      - name: Make Berry and Tasmota Berry code
-        run: |
-          cd lib/libesp32/berry
-          make
-          cd ../berry_tasmota
-          ../berry/berry -s -g solidify_all.be
+      # - name: Make Berry and Tasmota Berry code
+      #   run: |
+      #     cd lib/libesp32/berry
+      #     make
+      #     cd ../berry_tasmota
+      #     ../berry/berry -s -g solidify_all.be
       - name: Matter Berry Code
         run: |
           cd lib/libesp32/berry_matter
