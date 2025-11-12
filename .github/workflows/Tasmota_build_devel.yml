@@ -18,7 +18,7 @@ concurrency:
 jobs:
   be_solidify:
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota' && github.ref_name == 'development'
+    if: github.repository == 'orphnahk/Tasmota' && github.ref_name == 'development'
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
   push_solidified:
     needs: be_solidify
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota' && github.ref_name == 'development'
+    if: github.repository == 'orphnahk/Tasmota' && github.ref_name == 'development'
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
@@ -83,7 +83,7 @@ jobs:
   safeboot-images:
     needs: push_solidified
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -142,7 +142,7 @@ jobs:
   base-images:
     needs: push_solidified
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -192,7 +192,7 @@ jobs:
   base32-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -259,7 +259,7 @@ jobs:
   language-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -311,9 +311,9 @@ jobs:
     needs: [base-images, base32-images, language-images]
     runs-on: ubuntu-latest
     steps:
-    - name: Dispatch workflow in arendst/Tasmota-firmware
+    - name: Dispatch workflow in orphnahk/Tasmota-firmware
       run: |
-         curl -X POST https://api.github.com/repos/arendst/Tasmota-firmware/actions/workflows/fetch_deploy.yml/dispatches \
+         curl -X POST https://api.github.com/repos/orphnahk/Tasmota-firmware/actions/workflows/fetch_deploy.yml/dispatches \
          -H 'Accept: application/vnd.github.everest-preview+json' \
          -u ${{ secrets.API_TOKEN_GITHUB }} \
          --data '{"ref": "gh_actions"}'
