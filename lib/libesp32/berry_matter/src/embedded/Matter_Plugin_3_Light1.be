@@ -55,6 +55,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Constructor
   def init(device, endpoint, arguments)
     self.shadow_bri = 0
+    tasmota.log("MTR: FUCK YOU adasd", 4)
     super(self).init(device, endpoint, arguments)
   end
 
