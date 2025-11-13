@@ -150,7 +150,7 @@ be_local_closure(Matter_Plugin_Light1_invoke_request,   /* name */
       0x8C20050D,  //  003C  GETMET	R8	R2	K13
       0x58280006,  //  003D  LDCONST	R10	K6
       0x7C200400,  //  003E  CALL	R8	2
-      0x24241106,  //  003F  GT	R9	R8	K6
+      0x2424110A,  //  003F  GT	R9	R8	K10
       0x8C28010E,  //  0040  GETMET	R10	R0	K14
       0x5C301000,  //  0041  MOVE	R12	R8
       0x5C341200,  //  0042  MOVE	R13	R9
@@ -199,7 +199,7 @@ be_local_closure(Matter_Plugin_Light1_invoke_request,   /* name */
       0x8C20050D,  //  006D  GETMET	R8	R2	K13
       0x58280006,  //  006E  LDCONST	R10	K6
       0x7C200400,  //  006F  CALL	R8	2
-      0x24241106,  //  0070  GT	R9	R8	K6
+      0x2424110A,  //  0070  GT	R9	R8	K10
       0x8C28010E,  //  0071  GETMET	R10	R0	K14
       0x5C301000,  //  0072  MOVE	R12	R8
       0x5C341200,  //  0073  MOVE	R13	R9
