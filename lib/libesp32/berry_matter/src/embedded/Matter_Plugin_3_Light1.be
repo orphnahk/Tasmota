@@ -55,6 +55,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Constructor
   def init(device, endpoint, arguments)
     self.shadow_bri = 0
+    tasmota.log("MTR: FUCK YOU init", 4)
     super(self).init(device, endpoint, arguments)
   end
 
@@ -64,6 +65,9 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Parse configuration map
   def parse_configuration(config)
     super(self).parse_configuration(config)
+
+    tasmota.log("MTR: FUCK YOU parse_configuration", 4)
+    
     # with Light0 we always need relay number but we don't for Light1/2/3 so self.tasmota_relay_index may be `nil`
     if self.BRIDGE
       self.tasmota_relay_index = int(config.find(self.ARG #-'relay'-#, nil))
@@ -89,6 +93,9 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Update shadow
   #
   def update_shadow()
+
+    tasmota.log("MTR: FUCK YOU update_shadow", 4)
+
     if !self.VIRTUAL && !self.BRIDGE
       import light
       var light_status = light.get(self.light_index)
@@ -117,6 +124,9 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # `bri` is in range 0.255 and not 0..254 like in Matter
   # `pow` can be bool on `nil` if no change
   def set_bri(bri_254, pow)
+
+    tasmota.log("MTR: FUCK YOU set_bri", 4)
+
     if (bri_254 < 0)    bri_254 = 0     end
     if (bri_254 > 254)  bri_254 = 254   end
     pow = (pow != nil) ? bool(pow) : nil        # nil or bool
