@@ -903,7 +903,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request(msg, val)
-    # import debug
+    import debug
     # structure is `ReadRequestMessage` 10.6.2 p.558
     tasmota.log("MTR: IM:invoke_request processing start", 4)
     var ctx = matter.Path()
