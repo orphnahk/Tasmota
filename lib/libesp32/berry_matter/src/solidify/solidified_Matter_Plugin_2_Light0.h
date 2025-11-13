@@ -3,8 +3,8 @@
 * Generated code, don't edit                                         *
 \********************************************************************/
 #include "be_constobj.h"
-// compact class 'Matter_Plugin_Light0' ktab size: 60, total: 104 (saved 352 bytes)
-static const bvalue be_ktab_class_Matter_Plugin_Light0[60] = {
+// compact class 'Matter_Plugin_Light0' ktab size: 61, total: 106 (saved 360 bytes)
+static const bvalue be_ktab_class_Matter_Plugin_Light0[61] = {
   /* K0   */  be_nested_str_weak(math),
   /* K1   */  be_nested_str_weak(log),
   /* K2   */  be_nested_str_weak(MTR_X3A_X20zigbee_received_X20Ox_X2504X_X20attr_list_X3D_X25s_X20type_X28attr_list_X29_X3D_X25s),
@@ -57,14 +57,15 @@ static const bvalue be_ktab_class_Matter_Plugin_Light0[60] = {
   /* K49  */  be_nested_str_weak(html_escape),
   /* K50  */  be_nested_str_weak(),
   /* K51  */  be_nested_str_weak(light_index),
-  /* K52  */  be_nested_str_weak(init),
-  /* K53  */  be_nested_str_weak(call_remote_sync),
-  /* K54  */  be_nested_str_weak(1),
-  /* K55  */  be_nested_str_weak(0),
-  /* K56  */  be_nested_str_weak(parse_status),
-  /* K57  */  be_nested_str_weak(set_power),
-  /* K58  */  be_nested_str_weak(light),
-  /* K59  */  be_nested_str_weak(power),
+  /* K52  */  be_nested_str_weak(MTR_X3A_X20FUCK_X20YOU),
+  /* K53  */  be_nested_str_weak(init),
+  /* K54  */  be_nested_str_weak(call_remote_sync),
+  /* K55  */  be_nested_str_weak(1),
+  /* K56  */  be_nested_str_weak(0),
+  /* K57  */  be_nested_str_weak(parse_status),
+  /* K58  */  be_nested_str_weak(set_power),
+  /* K59  */  be_nested_str_weak(light),
+  /* K60  */  be_nested_str_weak(power),
 };
 
 
@@ -535,19 +536,22 @@ be_local_closure(class_Matter_Plugin_Light0_init,   /* name */
     &be_ktab_class_Matter_Plugin_Light0,     /* shared constants */
     be_str_weak(init),
     &be_const_str_solidified,
-    ( &(const binstruction[12]) {  /* code */
+    ( &(const binstruction[15]) {  /* code */
       0x50100000,  //  0000  LDBOOL	R4	0	0
       0x90022A04,  //  0001  SETMBR	R0	K21	R4
       0x90026706,  //  0002  SETMBR	R0	K51	K6
-      0x60100003,  //  0003  GETGBL	R4	G3
-      0x5C140000,  //  0004  MOVE	R5	R0
+      0xB8120200,  //  0003  GETNGBL	R4	K1
+      0x58140034,  //  0004  LDCONST	R5	K52
       0x7C100200,  //  0005  CALL	R4	1
-      0x8C100934,  //  0006  GETMET	R4	R4	K52
-      0x5C180200,  //  0007  MOVE	R6	R1
-      0x5C1C0400,  //  0008  MOVE	R7	R2
-      0x5C200600,  //  0009  MOVE	R8	R3
-      0x7C100800,  //  000A  CALL	R4	4
-      0x80000000,  //  000B  RET	0
+      0x60100003,  //  0006  GETGBL	R4	G3
+      0x5C140000,  //  0007  MOVE	R5	R0
+      0x7C100200,  //  0008  CALL	R4	1
+      0x8C100935,  //  0009  GETMET	R4	R4	K53
+      0x5C180200,  //  000A  MOVE	R6	R1
+      0x5C1C0400,  //  000B  MOVE	R7	R2
+      0x5C200600,  //  000C  MOVE	R8	R3
+      0x7C100800,  //  000D  CALL	R4	4
+      0x80000000,  //  000E  RET	0
     })
   )
 );
@@ -600,20 +604,20 @@ be_local_closure(class_Matter_Plugin_Light0_set_onoff,   /* name */
     ( &(const binstruction[56]) {  /* code */
       0x88080118,  //  0000  GETMBR	R2	R0	K24
       0x780A0011,  //  0001  JMPF	R2	#0014
-      0x8C080135,  //  0002  GETMET	R2	R0	K53
+      0x8C080136,  //  0002  GETMET	R2	R0	K54
       0x60100008,  //  0003  GETGBL	R4	G8
       0x88140110,  //  0004  GETMBR	R5	R0	K16
       0x7C100200,  //  0005  CALL	R4	1
       0x00121004,  //  0006  ADD	R4	K8	R4
       0x78060001,  //  0007  JMPF	R1	#000A
-      0x58140036,  //  0008  LDCONST	R5	K54
+      0x58140037,  //  0008  LDCONST	R5	K55
       0x70020000,  //  0009  JMP		#000B
-      0x58140037,  //  000A  LDCONST	R5	K55
+      0x58140038,  //  000A  LDCONST	R5	K56
       0x7C080600,  //  000B  CALL	R2	3
       0x4C0C0000,  //  000C  LDNIL	R3
       0x200C0403,  //  000D  NE	R3	R2	R3
       0x780E0003,  //  000E  JMPF	R3	#0013
-      0x8C0C0138,  //  000F  GETMET	R3	R0	K56
+      0x8C0C0139,  //  000F  GETMET	R3	R0	K57
       0x5C140400,  //  0010  MOVE	R5	R2
       0x541A000A,  //  0011  LDINT	R6	11
       0x7C0C0600,  //  0012  CALL	R3	3
@@ -634,7 +638,7 @@ be_local_closure(class_Matter_Plugin_Light0_set_onoff,   /* name */
       0x20080403,  //  0021  NE	R2	R2	R3
       0x780A000A,  //  0022  JMPF	R2	#002E
       0xB80A3200,  //  0023  GETNGBL	R2	K25
-      0x8C080539,  //  0024  GETMET	R2	R2	K57
+      0x8C08053A,  //  0024  GETMET	R2	R2	K58
       0x88100110,  //  0025  GETMBR	R4	R0	K16
       0x0410090C,  //  0026  SUB	R4	R4	K12
       0x60140017,  //  0027  GETGBL	R5	G23
@@ -644,11 +648,11 @@ be_local_closure(class_Matter_Plugin_Light0_set_onoff,   /* name */
       0x8C08011B,  //  002B  GETMET	R2	R0	K27
       0x7C080200,  //  002C  CALL	R2	1
       0x70020008,  //  002D  JMP		#0037
-      0xA40A7400,  //  002E  IMPORT	R2	K58
+      0xA40A7600,  //  002E  IMPORT	R2	K59
       0x8C0C052A,  //  002F  GETMET	R3	R2	K42
       0x60140013,  //  0030  GETGBL	R5	G19
       0x7C140000,  //  0031  CALL	R5	0
-      0x98167601,  //  0032  SETIDX	R5	K59	R1
+      0x98167801,  //  0032  SETIDX	R5	K60	R1
       0x88180133,  //  0033  GETMBR	R6	R0	K51
       0x7C0C0600,  //  0034  CALL	R3	3
       0x8C0C011B,  //  0035  GETMET	R3	R0	K27
