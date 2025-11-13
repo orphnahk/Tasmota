@@ -55,7 +55,7 @@ class Matter_Plugin_Light0 : Matter_Plugin_Device
   def init(device, endpoint, config)
     self.shadow_onoff = false
     self.light_index = 0                              # default is 0 for light object
-    log("MTR: FUCK YOU")
+    tasmota.log("MTR: FUCK YOU", 4)
     super(self).init(device, endpoint, config)
   end
 
