@@ -55,7 +55,6 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Constructor
   def init(device, endpoint, arguments)
     self.shadow_bri = 0
-    tasmota.log("MTR: FUCK YOU adasd", 4)
     super(self).init(device, endpoint, arguments)
   end
 
@@ -155,6 +154,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var TLV = matter.TLV
     var cluster = ctx.cluster
     var attribute = ctx.attribute
+    tasmota.log("MTR: FUCK YOU read_attribute", 4)
 
     # ====================================================================================================
     if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
@@ -185,6 +185,9 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var TLV = matter.TLV
     var cluster = ctx.cluster
     var command = ctx.command
+
+    
+    tasmota.log("MTR: FUCK YOU invoke_request", 4)
 
     # ====================================================================================================
     if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
