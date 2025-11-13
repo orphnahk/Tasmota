@@ -3,7 +3,7 @@
 * Generated code, don't edit                                         *
 \********************************************************************/
 #include "be_constobj.h"
-// compact class 'Matter_Plugin_Light0' ktab size: 61, total: 106 (saved 360 bytes)
+// compact class 'Matter_Plugin_Light0' ktab size: 61, total: 107 (saved 368 bytes)
 static const bvalue be_ktab_class_Matter_Plugin_Light0[61] = {
   /* K0   */  be_nested_str_weak(math),
   /* K1   */  be_nested_str_weak(log),
@@ -536,22 +536,24 @@ be_local_closure(class_Matter_Plugin_Light0_init,   /* name */
     &be_ktab_class_Matter_Plugin_Light0,     /* shared constants */
     be_str_weak(init),
     &be_const_str_solidified,
-    ( &(const binstruction[15]) {  /* code */
+    ( &(const binstruction[17]) {  /* code */
       0x50100000,  //  0000  LDBOOL	R4	0	0
       0x90022A04,  //  0001  SETMBR	R0	K21	R4
       0x90026706,  //  0002  SETMBR	R0	K51	K6
-      0xB8120200,  //  0003  GETNGBL	R4	K1
-      0x58140034,  //  0004  LDCONST	R5	K52
-      0x7C100200,  //  0005  CALL	R4	1
-      0x60100003,  //  0006  GETGBL	R4	G3
-      0x5C140000,  //  0007  MOVE	R5	R0
-      0x7C100200,  //  0008  CALL	R4	1
-      0x8C100935,  //  0009  GETMET	R4	R4	K53
-      0x5C180200,  //  000A  MOVE	R6	R1
-      0x5C1C0400,  //  000B  MOVE	R7	R2
-      0x5C200600,  //  000C  MOVE	R8	R3
-      0x7C100800,  //  000D  CALL	R4	4
-      0x80000000,  //  000E  RET	0
+      0xB8123200,  //  0003  GETNGBL	R4	K25
+      0x8C100901,  //  0004  GETMET	R4	R4	K1
+      0x58180034,  //  0005  LDCONST	R6	K52
+      0x541E0003,  //  0006  LDINT	R7	4
+      0x7C100600,  //  0007  CALL	R4	3
+      0x60100003,  //  0008  GETGBL	R4	G3
+      0x5C140000,  //  0009  MOVE	R5	R0
+      0x7C100200,  //  000A  CALL	R4	1
+      0x8C100935,  //  000B  GETMET	R4	R4	K53
+      0x5C180200,  //  000C  MOVE	R6	R1
+      0x5C1C0400,  //  000D  MOVE	R7	R2
+      0x5C200600,  //  000E  MOVE	R8	R3
+      0x7C100800,  //  000F  CALL	R4	4
+      0x80000000,  //  0010  RET	0
     })
   )
 );
