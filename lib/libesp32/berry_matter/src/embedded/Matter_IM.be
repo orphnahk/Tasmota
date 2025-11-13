@@ -52,24 +52,24 @@ class Matter_IM
     if   opcode == 0x02   # Read Request
       var read_request_solo = self.read_request_solo.from_raw(msg.raw, msg.app_payload_idx)
       if read_request_solo != nil
-        # log(f"MTR: process_incoming {read_request_solo=}")
+        log(f"MTR: process_incoming {read_request_solo=}")
         return self.process_read_request_solo(msg, read_request_solo)
       end
     elif opcode == 0x08   # Invoke Request
       var invoke_request_solo = self.invoke_request_solo.from_raw(msg.raw, msg.app_payload_idx)
-      # log(f"MTR: {invoke_request_solo=} {msg.raw[msg.app_payload_idx .. ].tohex()} {msg.app_payload_idx=} {msg.raw.tohex()}")
+      log(f"MTR: {invoke_request_solo=} {msg.raw[msg.app_payload_idx .. ].tohex()} {msg.app_payload_idx=} {msg.raw.tohex()}")
       if invoke_request_solo != nil
         return self.process_invoke_request_solo(msg, invoke_request_solo)
       end
     end
 
-    # log("MTR: received IM message " + matter.inspect(msg), 3)
+    log("MTR: received IM message " + matter.inspect(msg), 3)
     var val = matter.TLV.parse(msg.raw, msg.app_payload_idx)
 
-    # log("MTR: IM TLV: " + str(val), 3)
+    log("MTR: IM TLV: " + str(val), 3)
 
     # var InteractionModelRevision = val.findsubval(0xFF)
-    # log("MTR: InteractionModelRevision=" + (InteractionModelRevision != nil ? str(InteractionModelRevision) : "nil"), 4)
+    log("MTR: InteractionModelRevision=" + (InteractionModelRevision != nil ? str(InteractionModelRevision) : "nil"), 4)
 
     if   opcode == 0x01   # Status Response
       return self.process_status_response(msg, val)
@@ -112,7 +112,7 @@ class Matter_IM
   def process_incoming_ack(msg)
     # check if there is an exchange_id interested in receiving this
     var message = self.find_sendqueue_by_exchangeid(msg.exchange_id)
-    # log(format("MTR: process_incoming_ack exch=%i message=%i", msg.exchange_id, message != nil ? 1 : 0), 3)
+    log(format("MTR: process_incoming_ack exch=%i message=%i", msg.exchange_id, message != nil ? 1 : 0), 3)
     if message
       var ret = message.ack_received(msg)                # dispatch to IM_Message
       if message.finished
@@ -178,7 +178,7 @@ class Matter_IM
     var idx = 0
     while idx < size(self.send_queue)
       if self.send_queue[idx].get_exchangeid() == exchange_id
-        # log(f"MTR: remove IM message exch={exchange_id}", 3)
+        log(f"MTR: remove IM message exch={exchange_id}", 3)
         self.send_queue.remove(idx)
       else
         idx += 1
@@ -624,7 +624,7 @@ class Matter_IM
 
       # structure is `ReadRequestMessage` 10.6.2 p.558
       var size_requests = (query.attributes_requests ? size(query.attributes_requests) : 0)
-      # log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
+      log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
       if (size_requests > 1)
         generator_or_arr = []
       end
@@ -640,7 +640,7 @@ class Matter_IM
         end
         
         if tasmota.loglevel(3)
-        # log read request if it contains expansion (wildcard), single reads are logged at concrete time
+        log read request if it contains expansion (wildcard), single reads are logged at concrete time
           if q.endpoint == nil || q.cluster == nil || q.attribute == nil
             # we need expansion, log first
             var ctx = matter.Path()
@@ -705,7 +705,7 @@ class Matter_IM
 
       # structure is `ReadRequestMessage` 10.6.2 p.558
       var size_requests = (query.event_requests ? size(query.event_requests) : 0)
-      # log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
+      log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
       if (size_requests > 1)
         generator_or_arr = []
       end
@@ -835,7 +835,7 @@ class Matter_IM
       if tasmota.loglevel(3)
         var res_str = res.to_str_val()  # get the value with anonymous tag before it is tagged, for logging
         log(f"MTR: >Read_Attr1({msg.session.local_session_id:6i}) {ctx}{attr_name} - {res_str}", 3)
-        # log(f"MTR: {res.tlv2raw().tohex()}", 3)
+        log(f"MTR: {res.tlv2raw().tohex()}", 3)
       end
       # if matter.profiler.active && tasmota.loglevel(3)
       #   log(f"MTR:            {raw=}", 3)    # TODO remove before flight
@@ -864,7 +864,7 @@ class Matter_IM
     var query = matter.SubscribeRequestMessage().from_TLV(val)
 
     if !query.keep_subscriptions
-      # log(f"MTR: remove all subscriptions for session {msg.session}", 3)
+      log(f"MTR: remove all subscriptions for session {msg.session}", 3)
       self.subs_shop.remove_by_session(msg.session)      # if `keep_subscriptions`, kill all subscriptions from current session
     end
 
@@ -905,7 +905,7 @@ class Matter_IM
   def process_invoke_request(msg, val)
     # import debug
     # structure is `ReadRequestMessage` 10.6.2 p.558
-    # log("MTR: IM:invoke_request processing start", 4)
+    log("MTR: IM:invoke_request processing start", 4)
     var ctx = matter.Path()
     ctx.msg = msg
 
@@ -927,7 +927,7 @@ class Matter_IM
         var res = self.device.invoke_request(msg.session, q.command_fields, ctx)
         var params_log = (ctx.log != nil) ? "(" + str(ctx.log) + ") " : ""
         log(format("MTR: >Command   (%6i) %s %s %s", msg.session.local_session_id, ctx_str, cmd_name ? cmd_name : "", params_log), 3)
-        # log("MTR: Perf/Command = " + str(debug.counters()), 4)
+        log("MTR: Perf/Command = " + str(debug.counters()), 4)
         ctx.log = nil
         var raw = bytes(32)
         # var a1 = matter.InvokeResponseIB()
@@ -988,7 +988,7 @@ class Matter_IM
     if tasmota.loglevel(3)
       log(format("MTR: >Command1  (%6i) %s %s %s", msg.session.local_session_id, ctx_str, cmd_name ? cmd_name : "", params_log), 3)
     end
-    # log("MTR: Perf/Command = " + str(debug.counters()), 4)
+    log("MTR: Perf/Command = " + str(debug.counters()), 4)
     ctx.log = nil
     var raw = bytes(48)
 
@@ -1026,7 +1026,7 @@ class Matter_IM
     raw.add(0x1824FF01, -4)       # add 1824FF01
     raw.add(0x18, 1)              # add 18
 
-    # log(f"MTR: raw={raw.tohex()}", 3)
+    log(f"MTR: raw={raw.tohex()}", 3)
     var resp = msg.build_response(0x09 #-Invoke Response-#, true)
     var responder = self.device.message_handler
     var msg_raw = msg.raw
@@ -1043,7 +1043,7 @@ class Matter_IM
   #
   # def subscribe_response(msg, val)
   #   var query = matter.SubscribeResponseMessage().from_TLV(val)
-  #   # log("MTR: received SubscribeResponsetMessage=" + str(query), 4)
+  #   log("MTR: received SubscribeResponsetMessage=" + str(query), 4)
   #   return false
   # end
 
@@ -1052,7 +1052,7 @@ class Matter_IM
   #
   # def report_data(msg, val)
   #   var query = matter.ReportDataMessage().from_TLV(val)
-  #   # log("MTR: received ReportDataMessage=" + str(query), 4)
+  #   log("MTR: received ReportDataMessage=" + str(query), 4)
   #   return false
   # end
 
@@ -1095,7 +1095,7 @@ class Matter_IM
   #
   def process_write_request(msg, val)
     var query = matter.WriteRequestMessage().from_TLV(val)
-    # log("MTR: received WriteRequestMessage=" + str(query), 3)
+    log("MTR: received WriteRequestMessage=" + str(query), 3)
     var ctx_log = matter.Path()         # pre-allocate object for logging
 
     var suppress_response = query.suppress_response
@@ -1163,7 +1163,7 @@ class Matter_IM
   #
   # def process_write_response(msg, val)
   #   var query = matter.WriteResponseMessage().from_TLV(val)
-  #   # log("MTR: received WriteResponseMessage=" + str(query), 4)
+  #   log("MTR: received WriteResponseMessage=" + str(query), 4)
   #   return false
   # end
 
@@ -1172,7 +1172,7 @@ class Matter_IM
   #
   # def process_invoke_response(msg, val)
   #   var query = matter.InvokeResponseMessage().from_TLV(val)
-  #   # log("MTR: received InvokeResponseMessage=" + str(query), 4)
+  #   log("MTR: received InvokeResponseMessage=" + str(query), 4)
   #   return false
   # end
 
@@ -1181,7 +1181,7 @@ class Matter_IM
   #
   def process_timed_request(msg, val)
     var query = matter.TimedRequestMessage().from_TLV(val)
-    # log("MTR: received TimedRequestMessage=" + str(query), 3)
+    log("MTR: received TimedRequestMessage=" + str(query), 3)
 
     log(format("MTR: >Command   (%6i) TimedRequest=%i", msg.session.local_session_id, query.timeout), 3)
     
