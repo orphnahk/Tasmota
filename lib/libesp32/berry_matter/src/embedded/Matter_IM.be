@@ -977,7 +977,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request_solo(msg, ctx)
-    # import debug
+    import debug
     ctx.msg = msg
     ctx.status = matter.UNSUPPORTED_COMMAND   #default error if returned `nil`
 
