@@ -3,8 +3,8 @@
 * Generated code, don't edit                                         *
 \********************************************************************/
 #include "be_constobj.h"
-// compact class 'Matter_Plugin_Light1' ktab size: 55, total: 109 (saved 432 bytes)
-static const bvalue be_ktab_class_Matter_Plugin_Light1[55] = {
+// compact class 'Matter_Plugin_Light1' ktab size: 56, total: 112 (saved 448 bytes)
+static const bvalue be_ktab_class_Matter_Plugin_Light1[56] = {
   /* K0   */  be_const_int(0),
   /* K1   */  be_nested_str_weak(BRIDGE),
   /* K2   */  be_nested_str_weak(tasmota),
@@ -53,13 +53,14 @@ static const bvalue be_ktab_class_Matter_Plugin_Light1[55] = {
   /* K45  */  be_nested_str_weak(get_option),
   /* K46  */  be_nested_str_weak(get),
   /* K47  */  be_nested_str_weak(update_virtual),
-  /* K48  */  be_nested_str_weak(init),
-  /* K49  */  be_nested_str_weak(webserver),
-  /* K50  */  be_nested_str_weak(web_values_prefix),
-  /* K51  */  be_nested_str_weak(content_send),
-  /* K52  */  be_nested_str_weak(_X25s_X20_X25s),
-  /* K53  */  be_nested_str_weak(web_value_onoff),
-  /* K54  */  be_nested_str_weak(web_value_dimmer),
+  /* K48  */  be_nested_str_weak(MTR_X3A_X20FUCK_X20YOU_X20adasd),
+  /* K49  */  be_nested_str_weak(init),
+  /* K50  */  be_nested_str_weak(webserver),
+  /* K51  */  be_nested_str_weak(web_values_prefix),
+  /* K52  */  be_nested_str_weak(content_send),
+  /* K53  */  be_nested_str_weak(_X25s_X20_X25s),
+  /* K54  */  be_nested_str_weak(web_value_onoff),
+  /* K55  */  be_nested_str_weak(web_value_dimmer),
 };
 
 
@@ -591,17 +592,22 @@ be_local_closure(class_Matter_Plugin_Light1_init,   /* name */
     &be_ktab_class_Matter_Plugin_Light1,     /* shared constants */
     be_str_weak(init),
     &be_const_str_solidified,
-    ( &(const binstruction[10]) {  /* code */
+    ( &(const binstruction[15]) {  /* code */
       0x90021500,  //  0000  SETMBR	R0	K10	K0
-      0x60100003,  //  0001  GETGBL	R4	G3
-      0x5C140000,  //  0002  MOVE	R5	R0
-      0x7C100200,  //  0003  CALL	R4	1
-      0x8C100930,  //  0004  GETMET	R4	R4	K48
-      0x5C180200,  //  0005  MOVE	R6	R1
-      0x5C1C0400,  //  0006  MOVE	R7	R2
-      0x5C200600,  //  0007  MOVE	R8	R3
-      0x7C100800,  //  0008  CALL	R4	4
-      0x80000000,  //  0009  RET	0
+      0xB8120400,  //  0001  GETNGBL	R4	K2
+      0x8C10091B,  //  0002  GETMET	R4	R4	K27
+      0x58180030,  //  0003  LDCONST	R6	K48
+      0x541E0003,  //  0004  LDINT	R7	4
+      0x7C100600,  //  0005  CALL	R4	3
+      0x60100003,  //  0006  GETGBL	R4	G3
+      0x5C140000,  //  0007  MOVE	R5	R0
+      0x7C100200,  //  0008  CALL	R4	1
+      0x8C100931,  //  0009  GETMET	R4	R4	K49
+      0x5C180200,  //  000A  MOVE	R6	R1
+      0x5C1C0400,  //  000B  MOVE	R7	R2
+      0x5C200600,  //  000C  MOVE	R8	R3
+      0x7C100800,  //  000D  CALL	R4	4
+      0x80000000,  //  000E  RET	0
     })
   )
 );
@@ -625,16 +631,16 @@ be_local_closure(class_Matter_Plugin_Light1_web_values,   /* name */
     be_str_weak(web_values),
     &be_const_str_solidified,
     ( &(const binstruction[14]) {  /* code */
-      0xA4066200,  //  0000  IMPORT	R1	K49
-      0x8C080132,  //  0001  GETMET	R2	R0	K50
+      0xA4066400,  //  0000  IMPORT	R1	K50
+      0x8C080133,  //  0001  GETMET	R2	R0	K51
       0x7C080200,  //  0002  CALL	R2	1
-      0x8C080333,  //  0003  GETMET	R2	R1	K51
+      0x8C080334,  //  0003  GETMET	R2	R1	K52
       0x60100018,  //  0004  GETGBL	R4	G24
-      0x58140034,  //  0005  LDCONST	R5	K52
-      0x8C180135,  //  0006  GETMET	R6	R0	K53
+      0x58140035,  //  0005  LDCONST	R5	K53
+      0x8C180136,  //  0006  GETMET	R6	R0	K54
       0x88200108,  //  0007  GETMBR	R8	R0	K8
       0x7C180400,  //  0008  CALL	R6	2
-      0x8C1C0136,  //  0009  GETMET	R7	R0	K54
+      0x8C1C0137,  //  0009  GETMET	R7	R0	K55
       0x7C1C0200,  //  000A  CALL	R7	1
       0x7C100600,  //  000B  CALL	R4	3
       0x7C080400,  //  000C  CALL	R2	2
