@@ -55,7 +55,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Constructor
   def init(device, endpoint, arguments)
     self.shadow_bri = 0
-    tasmota.log("MTR: FUCK YOU init", 4)
+    tasmota.log("MTR: FUCK YOU init", 3)
     super(self).init(device, endpoint, arguments)
   end
 
@@ -66,7 +66,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   def parse_configuration(config)
     super(self).parse_configuration(config)
 
-    tasmota.log("MTR: FUCK YOU parse_configuration", 4)
+    tasmota.log("MTR: FUCK YOU parse_configuration", 3)
     
     # with Light0 we always need relay number but we don't for Light1/2/3 so self.tasmota_relay_index may be `nil`
     if self.BRIDGE
@@ -122,7 +122,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # `pow` can be bool on `nil` if no change
   def set_bri(bri_254, pow)
 
-    tasmota.log("MTR: FUCK YOU set_bri", 4)
+    tasmota.log("MTR: FUCK YOU set_bri", 3)
 
     if (bri_254 < 0)    bri_254 = 0     end
     if (bri_254 > 254)  bri_254 = 254   end
@@ -161,7 +161,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var TLV = matter.TLV
     var cluster = ctx.cluster
     var attribute = ctx.attribute
-    tasmota.log("MTR: FUCK YOU read_attribute", 4)
+    tasmota.log("MTR: FUCK YOU read_attribute", 3)
 
     # ====================================================================================================
     if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
@@ -194,7 +194,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var command = ctx.command
 
     
-    tasmota.log("MTR: FUCK YOU invoke_request", 4)
+    tasmota.log("MTR: FUCK YOU invoke_request", 3)
 
     # ====================================================================================================
     if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========

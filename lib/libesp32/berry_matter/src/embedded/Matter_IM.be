@@ -52,12 +52,12 @@ class Matter_IM
     if   opcode == 0x02   # Read Request
       var read_request_solo = self.read_request_solo.from_raw(msg.raw, msg.app_payload_idx)
       if read_request_solo != nil
-        tasmota.log(f"MTR: process_incoming {read_request_solo=}")
+        tasmota.log(f"MTR: process_incoming {read_request_solo=}", 3)
         return self.process_read_request_solo(msg, read_request_solo)
       end
     elif opcode == 0x08   # Invoke Request
       var invoke_request_solo = self.invoke_request_solo.from_raw(msg.raw, msg.app_payload_idx)
-      tasmota.log(f"MTR: {invoke_request_solo=} {msg.raw[msg.app_payload_idx .. ].tohex()} {msg.app_payload_idx=} {msg.raw.tohex()}")
+      tasmota.log(f"MTR: {invoke_request_solo=} {msg.raw[msg.app_payload_idx .. ].tohex()} {msg.app_payload_idx=} {msg.raw.tohex()}", 3)
       if invoke_request_solo != nil
         return self.process_invoke_request_solo(msg, invoke_request_solo)
       end
@@ -69,7 +69,7 @@ class Matter_IM
     tasmota.log("MTR: IM TLV: " + str(val), 3)
 
     var InteractionModelRevision = val.findsubval(0xFF)
-    tasmota.log("MTR: InteractionModelRevision=" + (InteractionModelRevision != nil ? str(InteractionModelRevision) : "nil"), 4)
+    tasmota.log("MTR: InteractionModelRevision=" + (InteractionModelRevision != nil ? str(InteractionModelRevision) : "nil"), 3)
 
     if   opcode == 0x01   # Status Response
       return self.process_status_response(msg, val)
@@ -624,7 +624,7 @@ class Matter_IM
 
       # structure is `ReadRequestMessage` 10.6.2 p.558
       var size_requests = (query.attributes_requests ? size(query.attributes_requests) : 0)
-      tasmota.log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
+      # tasmota.log(f"MTR: process_read_or_subscribe_request_pull {size_requests=}")
       if (size_requests > 1)
         generator_or_arr = []
       end
@@ -652,9 +652,9 @@ class Matter_IM
 
             if q.cluster != nil && q.attribute != nil
               var attr_name = matter.get_attribute_name(q.cluster, q.attribute)
-              tasmota.log(format("MTR: >Read_Attr (%6i) %s", msg.session.local_session_id, ctx_str + (attr_name ? " (" + attr_name + ")" : "")), 3)
-            else
-              tasmota.log(format("MTR: >Read_Attr (%6i) %s", msg.session.local_session_id, ctx_str), 3)
+              # tasmota.log(format("MTR: >Read_Attr (%6i) %s", msg.session.local_session_id, ctx_str + (attr_name ? " (" + attr_name + ")" : "")), 3)
+            # else
+              # tasmota.log(format("MTR: >Read_Attr (%6i) %s", msg.session.local_session_id, ctx_str), 3)
             end
           end
         end
@@ -674,11 +674,11 @@ class Matter_IM
     var event_no_min = nil                              # do we have a filter for minimum event_no (int64 or nil)
     if event_filters != nil
       for filter: event_filters                         # filter is an instance of `EventFilterIB`
-        # tasmota.tasmota.log(f"MTR: EventFilter {filter=} {node_id=}", 3)
+        # tasmota.log(f"MTR: EventFilter {filter=} {node_id=}", 3)
         var filter_node = int64.toint64(filter.node)    # nil or int64
         if (filter_node && node_id)                     # there is a filter on node-id
           if filter.node.tobytes() != node_id           # the node id doesn't match
-            tasmota.tasmota.log(f"MTR: node_id filter {filter_node.tobytes().tohex()} doesn't match {node_id.tohex()}")
+            tasmota.log(f"MTR: node_id filter {filter_node.tobytes().tohex()} doesn't match {node_id.tohex()}")
             continue
           end
         end
