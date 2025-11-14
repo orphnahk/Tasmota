@@ -560,12 +560,15 @@ class Matter_Device
   # and command invokes
   #############################################################
   def invoke_request(session, val, ctx)
+    tasmota.log("FUCK YOU too")
     var idx = 0
     var endpoint = ctx.endpoint
     while idx < size(self.plugins)
       var plugin = self.plugins[idx]
+      tasmota.log("FUCK YOU asdasd")
 
       if plugin.endpoint == endpoint
+        tasmota.log("FUCK YOU 23423423")
         return plugin.invoke_request(session, val, ctx)
       end
 
