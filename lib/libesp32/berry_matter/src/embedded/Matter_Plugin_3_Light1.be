@@ -93,9 +93,6 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
   # Update shadow
   #
   def update_shadow()
-
-    tasmota.log("MTR: FUCK YOU update_shadow", 4)
-
     if !self.VIRTUAL && !self.BRIDGE
       import light
       var light_status = light.get(self.light_index)
