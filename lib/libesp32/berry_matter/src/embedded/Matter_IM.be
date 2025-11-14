@@ -903,7 +903,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request(msg, val)
-    import debug
+    # import debug
     # structure is `ReadRequestMessage` 10.6.2 p.558
     tasmota.log("MTR: IM:invoke_request processing start", 4)
     var ctx = matter.Path()
@@ -927,7 +927,7 @@ class Matter_IM
         var res = self.device.invoke_request(msg.session, q.command_fields, ctx)
         var params_log = (ctx.log != nil) ? "(" + str(ctx.log) + ") " : ""
         tasmota.log(format("MTR: >Command   (%6i) %s %s %s", msg.session.local_session_id, ctx_str, cmd_name ? cmd_name : "", params_log), 3)
-        tasmota.log("MTR: Perf/Command = " + str(debug.counters()), 4)
+        # tasmota.log("MTR: Perf/Command = " + str(debug.counters()), 4)
         ctx.log = nil
         var raw = bytes(32)
         # var a1 = matter.InvokeResponseIB()
@@ -977,7 +977,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request_solo(msg, ctx)
-    import debug
+    # import debug
     ctx.msg = msg
     ctx.status = matter.UNSUPPORTED_COMMAND   #default error if returned `nil`
 
@@ -988,7 +988,7 @@ class Matter_IM
     if tasmota.loglevel(3)
       tasmota.log(format("MTR: >Command1  (%6i) %s %s %s", msg.session.local_session_id, ctx_str, cmd_name ? cmd_name : "", params_log), 3)
     end
-    tasmota.log("MTR: Perf/Command = " + str(debug.counters()), 4)
+    # tasmota.log("MTR: Perf/Command = " + str(debug.counters()), 4)
     ctx.log = nil
     var raw = bytes(48)
 
