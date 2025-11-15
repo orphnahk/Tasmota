@@ -199,7 +199,7 @@ class Matter_MessageHandler
         var protocol_id = frame.protocol_id
         if protocol_id == 0x0000    # PROTOCOL_ID_SECURE_CHANNEL
           # it should not be encrypted
-          # log("MTR: PROTOCOL_ID_SECURE_CHANNEL " + matter.inspect(frame), 3)
+          log("MTR: PROTOCOL_ID_SECURE_CHANNEL " + matter.inspect(frame), 3)
           if frame.opcode == 0x10                             # MRPStandaloneAcknowledgement
             ret = self.im.process_incoming_ack(frame)
             if ret
