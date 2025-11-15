@@ -93,11 +93,9 @@ class Matter_MessageHandler
       var ok = frame.decode_header()
       # matter.profiler.log("msg_received_header_decoded")
       if !ok      
-        log("FUCK YOU header decoded not ok")
         return false 
       end
 
-      log("FUCK YOU header decoded ok")
 
       # do we need decryption?
       if frame.sec_p
@@ -176,7 +174,12 @@ class Matter_MessageHandler
         
         var decrypt_ok = frame.decrypt()
         # matter.profiler.log("msg_received_header_frame_decrypted")
-        if !decrypt_ok     return false end
+        if !decrypt_ok     
+          log("FUCK YOU header decoded not ok")
+          return false 
+        end
+        
+        log("FUCK YOU header decoded ok")
 
         # matter.profiler.log("msg_received_payload_undecoded")
 

@@ -161,7 +161,7 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var TLV = matter.TLV
     var cluster = ctx.cluster
     var attribute = ctx.attribute
-    tasmota.log("MTR: FUCK YOU read_attribute", 3)
+    # tasmota.log("MTR: FUCK YOU read_attribute", 3)
 
     # ====================================================================================================
     if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
