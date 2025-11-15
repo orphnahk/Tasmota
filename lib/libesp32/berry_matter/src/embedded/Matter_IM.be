@@ -44,7 +44,7 @@ class Matter_IM
   end
 
   def process_incoming(msg)
-    tasmota.log("FUCK YOU process_incoming)
+    tasmota.log("FUCK YOU process_incoming")
     var opcode = msg.opcode
 
     # Fast-Track processing 
