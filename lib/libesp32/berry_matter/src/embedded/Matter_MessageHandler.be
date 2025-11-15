@@ -139,6 +139,7 @@ class Matter_MessageHandler
             log(format("MTR: >rcv Ack   (%6i) rid=%i exch=%i ack=%s %sfrom [%s]:%i", session.local_session_id, frame.message_counter, frame.x_flag_r ? "{reliable} " : "", frame.exchange_id, str(frame.ack_message_counter), addr, port), 4)
           end
         end
+        log("FUCK You commissioning.process_incoming")
         ret = self.commissioning.process_incoming(frame)
         # if ret is false, the implicit Ack was not sent
         if !ret     self.send_simple_ack(frame, false #-not reliable-#)   end
@@ -205,6 +206,8 @@ class Matter_MessageHandler
           ret = true
         elif protocol_id == 0x0001  # PROTOCOL_ID_INTERACTION_MODEL
           # dispatch to IM Protocol Messages
+          
+          log("FUCK You self.im.process_incoming")
           ret = self.im.process_incoming(frame)
           # if `ret` is true, we have something to send
           if ret
