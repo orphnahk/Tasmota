@@ -3,8 +3,8 @@
 * Generated code, don't edit                                         *
 \********************************************************************/
 #include "be_constobj.h"
-// compact class 'Matter_MessageHandler' ktab size: 84, total: 115 (saved 248 bytes)
-static const bvalue be_ktab_class_Matter_MessageHandler[84] = {
+// compact class 'Matter_MessageHandler' ktab size: 86, total: 117 (saved 248 bytes)
+static const bvalue be_ktab_class_Matter_MessageHandler[86] = {
   /* K0   */  be_nested_str_weak(device),
   /* K1   */  be_nested_str_weak(commissioning),
   /* K2   */  be_nested_str_weak(matter),
@@ -61,34 +61,36 @@ static const bvalue be_ktab_class_Matter_MessageHandler[84] = {
   /* K53  */  be_nested_str_weak(MTR_X3A_X20_X3Ercv_X20Ack_X20_X20_X20_X28_X256i_X29_X20rid_X3D_X25i_X20exch_X3D_X25i_X20ack_X3D_X25s_X20_X25sfrom_X20_X5B_X25s_X5D_X3A_X25i),
   /* K54  */  be_nested_str_weak(_X7Breliable_X7D_X20),
   /* K55  */  be_nested_str_weak(exchange_id),
-  /* K56  */  be_nested_str_weak(process_incoming),
-  /* K57  */  be_nested_str_weak(MTR_X3A_X20decode_X20header_X3A_X20local_session_id_X3D_X25i_X20message_counter_X3D_X25i),
-  /* K58  */  be_nested_str_weak(get_session_by_local_session_id),
-  /* K59  */  be_nested_str_weak(MTR_X3A_X20unknown_X20local_session_id_X3D),
-  /* K60  */  be_nested_str_weak(counter_rcv_validate),
-  /* K61  */  be_nested_str_weak(MTR_X3A_X20_X2E_X20_X20_X20_X20_X20_X20_X20_X20_X20_X20Duplicate_X20encrypted_X20message_X20_X3D_X20),
-  /* K62  */  be_nested_str_weak(_X20counter_X3D),
-  /* K63  */  be_nested_str_weak(counter_rcv),
-  /* K64  */  be_nested_str_weak(send_encrypted_ack),
-  /* K65  */  be_nested_str_weak(decrypt),
-  /* K66  */  be_nested_str_weak(MTR_X3A_X20_X3E_X20_X20_X20_X20_X20_X20_X20_X20_X20_X20Decrypted_X20message_X3A_X20protocol_id_X3A),
-  /* K67  */  be_nested_str_weak(protocol_id),
-  /* K68  */  be_nested_str_weak(_X20opcode_X3D),
-  /* K69  */  be_nested_str_weak(_X20exchange_id_X3D),
-  /* K70  */  be_nested_str_weak(process_incoming_ack),
-  /* K71  */  be_nested_str_weak(send_enqueued),
-  /* K72  */  be_const_int(1),
-  /* K73  */  be_nested_str_weak(MTR_X3A_X20ignoring_X20unhandled_X20protocol_id_X3A),
-  /* K74  */  be_nested_str_weak(MTR_X3A_X20MessageHandler_X3A_X3Amsg_received_X20exception_X3A_X20),
-  /* K75  */  be_nested_str_weak(_X3B),
-  /* K76  */  be_const_int(2),
-  /* K77  */  be_nested_str_weak(_debug_present),
-  /* K78  */  be_nested_str_weak(debug),
-  /* K79  */  be_nested_str_weak(traceback),
-  /* K80  */  be_nested_str_weak(msg_send),
-  /* K81  */  be_nested_str_weak(MTR_X3A_X20_X3CAck_X20_X20_X20_X20_X20_X20_X20_X28_X256i_X29_X20ack_X3D_X25i_X20id_X3D_X25i_X20_X25s),
-  /* K82  */  be_nested_str_weak(every_50ms),
-  /* K83  */  be_nested_str_weak(every_second),
+  /* K56  */  be_nested_str_weak(FUCK_X20You_X20commissioning_X2Eprocess_incoming),
+  /* K57  */  be_nested_str_weak(process_incoming),
+  /* K58  */  be_nested_str_weak(MTR_X3A_X20decode_X20header_X3A_X20local_session_id_X3D_X25i_X20message_counter_X3D_X25i),
+  /* K59  */  be_nested_str_weak(get_session_by_local_session_id),
+  /* K60  */  be_nested_str_weak(MTR_X3A_X20unknown_X20local_session_id_X3D),
+  /* K61  */  be_nested_str_weak(counter_rcv_validate),
+  /* K62  */  be_nested_str_weak(MTR_X3A_X20_X2E_X20_X20_X20_X20_X20_X20_X20_X20_X20_X20Duplicate_X20encrypted_X20message_X20_X3D_X20),
+  /* K63  */  be_nested_str_weak(_X20counter_X3D),
+  /* K64  */  be_nested_str_weak(counter_rcv),
+  /* K65  */  be_nested_str_weak(send_encrypted_ack),
+  /* K66  */  be_nested_str_weak(decrypt),
+  /* K67  */  be_nested_str_weak(MTR_X3A_X20_X3E_X20_X20_X20_X20_X20_X20_X20_X20_X20_X20Decrypted_X20message_X3A_X20protocol_id_X3A),
+  /* K68  */  be_nested_str_weak(protocol_id),
+  /* K69  */  be_nested_str_weak(_X20opcode_X3D),
+  /* K70  */  be_nested_str_weak(_X20exchange_id_X3D),
+  /* K71  */  be_nested_str_weak(process_incoming_ack),
+  /* K72  */  be_nested_str_weak(send_enqueued),
+  /* K73  */  be_const_int(1),
+  /* K74  */  be_nested_str_weak(FUCK_X20You_X20self_X2Eim_X2Eprocess_incoming),
+  /* K75  */  be_nested_str_weak(MTR_X3A_X20ignoring_X20unhandled_X20protocol_id_X3A),
+  /* K76  */  be_nested_str_weak(MTR_X3A_X20MessageHandler_X3A_X3Amsg_received_X20exception_X3A_X20),
+  /* K77  */  be_nested_str_weak(_X3B),
+  /* K78  */  be_const_int(2),
+  /* K79  */  be_nested_str_weak(_debug_present),
+  /* K80  */  be_nested_str_weak(debug),
+  /* K81  */  be_nested_str_weak(traceback),
+  /* K82  */  be_nested_str_weak(msg_send),
+  /* K83  */  be_nested_str_weak(MTR_X3A_X20_X3CAck_X20_X20_X20_X20_X20_X20_X20_X28_X256i_X29_X20ack_X3D_X25i_X20id_X3D_X25i_X20_X25s),
+  /* K84  */  be_nested_str_weak(every_50ms),
+  /* K85  */  be_nested_str_weak(every_second),
 };
 
 
@@ -209,13 +211,13 @@ be_local_closure(class_Matter_MessageHandler_msg_received,   /* name */
     &be_ktab_class_Matter_MessageHandler,     /* shared constants */
     be_str_weak(msg_received),
     &be_const_str_solidified,
-    ( &(const binstruction[350]) {  /* code */
+    ( &(const binstruction[356]) {  /* code */
       0x50100000,  //  0000  LDBOOL	R4	0	0
       0xB8161A00,  //  0001  GETNGBL	R5	K13
       0x8C140B0F,  //  0002  GETMET	R5	R5	K15
       0x581C0018,  //  0003  LDCONST	R7	K24
       0x7C140400,  //  0004  CALL	R5	2
-      0xA802013E,  //  0005  EXBLK	0	#0145
+      0xA8020144,  //  0005  EXBLK	0	#014B
       0xB8161E00,  //  0006  GETNGBL	R5	K15
       0x8C18031A,  //  0007  GETMET	R6	R1	K26
       0x7C180200,  //  0008  CALL	R6	1
@@ -256,13 +258,13 @@ be_local_closure(class_Matter_MessageHandler_msg_received,   /* name */
       0x7C200400,  //  002B  CALL	R8	2
       0xA8040001,  //  002C  EXBLK	1	1
       0x80041000,  //  002D  RET	1	R8
-      0x70020111,  //  002E  JMP		#0141
+      0x70020117,  //  002E  JMP		#0147
       0x881C0B12,  //  002F  GETMBR	R7	R5	K18
       0x1C1C0F24,  //  0030  EQ	R7	R7	K36
-      0x781E007A,  //  0031  JMPF	R7	#00AD
+      0x781E007D,  //  0031  JMPF	R7	#00B0
       0x881C0B25,  //  0032  GETMBR	R7	R5	K37
       0x1C1C0F24,  //  0033  EQ	R7	R7	K36
-      0x781E0077,  //  0034  JMPF	R7	#00AD
+      0x781E007A,  //  0034  JMPF	R7	#00B0
       0x881C0100,  //  0035  GETMBR	R7	R0	K0
       0x881C0F20,  //  0036  GETMBR	R7	R7	K32
       0x8C1C0F21,  //  0037  GETMET	R7	R7	K33
@@ -368,198 +370,204 @@ be_local_closure(class_Matter_MessageHandler_msg_received,   /* name */
       0x7C241000,  //  009B  CALL	R9	8
       0x542A0003,  //  009C  LDINT	R10	4
       0x7C200400,  //  009D  CALL	R8	2
-      0x88200101,  //  009E  GETMBR	R8	R0	K1
-      0x8C201138,  //  009F  GETMET	R8	R8	K56
-      0x5C280A00,  //  00A0  MOVE	R10	R5
-      0x7C200400,  //  00A1  CALL	R8	2
-      0x5C101000,  //  00A2  MOVE	R4	R8
-      0x5C200800,  //  00A3  MOVE	R8	R4
-      0x74220003,  //  00A4  JMPT	R8	#00A9
-      0x8C20012D,  //  00A5  GETMET	R8	R0	K45
-      0x5C280A00,  //  00A6  MOVE	R10	R5
-      0x502C0000,  //  00A7  LDBOOL	R11	0	0
-      0x7C200600,  //  00A8  CALL	R8	3
-      0x50200200,  //  00A9  LDBOOL	R8	1	0
-      0xA8040001,  //  00AA  EXBLK	1	1
-      0x80041000,  //  00AB  RET	1	R8
-      0x70020093,  //  00AC  JMP		#0141
-      0xB81E1A00,  //  00AD  GETNGBL	R7	K13
-      0x8C1C0F0E,  //  00AE  GETMET	R7	R7	K14
-      0x54260003,  //  00AF  LDINT	R9	4
-      0x7C1C0400,  //  00B0  CALL	R7	2
-      0x781E0007,  //  00B1  JMPF	R7	#00BA
-      0xB81E1E00,  //  00B2  GETNGBL	R7	K15
-      0x60200018,  //  00B3  GETGBL	R8	G24
-      0x58240039,  //  00B4  LDCONST	R9	K57
-      0x88280B12,  //  00B5  GETMBR	R10	R5	K18
-      0x882C0B14,  //  00B6  GETMBR	R11	R5	K20
-      0x7C200600,  //  00B7  CALL	R8	3
-      0x54260003,  //  00B8  LDINT	R9	4
-      0x7C1C0400,  //  00B9  CALL	R7	2
-      0x881C0100,  //  00BA  GETMBR	R7	R0	K0
-      0x881C0F20,  //  00BB  GETMBR	R7	R7	K32
-      0x8C1C0F3A,  //  00BC  GETMET	R7	R7	K58
-      0x88240B12,  //  00BD  GETMBR	R9	R5	K18
-      0x7C1C0400,  //  00BE  CALL	R7	2
-      0x4C200000,  //  00BF  LDNIL	R8
-      0x1C200E08,  //  00C0  EQ	R8	R7	R8
-      0x78220009,  //  00C1  JMPF	R8	#00CC
-      0xB8221E00,  //  00C2  GETNGBL	R8	K15
-      0x60240008,  //  00C3  GETGBL	R9	G8
-      0x88280B12,  //  00C4  GETMBR	R10	R5	K18
-      0x7C240200,  //  00C5  CALL	R9	1
-      0x00267609,  //  00C6  ADD	R9	K59	R9
-      0x58280033,  //  00C7  LDCONST	R10	K51
-      0x7C200400,  //  00C8  CALL	R8	2
-      0x50200000,  //  00C9  LDBOOL	R8	0	0
-      0xA8040001,  //  00CA  EXBLK	1	1
-      0x80041000,  //  00CB  RET	1	R8
-      0x780A0000,  //  00CC  JMPF	R2	#00CE
-      0x901E4C02,  //  00CD  SETMBR	R7	K38	R2
-      0x780E0000,  //  00CE  JMPF	R3	#00D0
-      0x901E4E03,  //  00CF  SETMBR	R7	K39	R3
-      0x901E5000,  //  00D0  SETMBR	R7	K40	R0
-      0x90162207,  //  00D1  SETMBR	R5	K17	R7
-      0x8C200F3C,  //  00D2  GETMET	R8	R7	K60
-      0x88280B14,  //  00D3  GETMBR	R10	R5	K20
-      0x502C0200,  //  00D4  LDBOOL	R11	1	0
-      0x7C200600,  //  00D5  CALL	R8	3
-      0x74220017,  //  00D6  JMPT	R8	#00EF
-      0xB8221A00,  //  00D7  GETNGBL	R8	K13
-      0x8C20110E,  //  00D8  GETMET	R8	R8	K14
-      0x58280033,  //  00D9  LDCONST	R10	K51
-      0x7C200400,  //  00DA  CALL	R8	2
-      0x7822000B,  //  00DB  JMPF	R8	#00E8
-      0xB8221E00,  //  00DC  GETNGBL	R8	K15
-      0x60240008,  //  00DD  GETGBL	R9	G8
-      0x88280B14,  //  00DE  GETMBR	R10	R5	K20
-      0x7C240200,  //  00DF  CALL	R9	1
-      0x00267A09,  //  00E0  ADD	R9	K61	R9
-      0x0024133E,  //  00E1  ADD	R9	R9	K62
-      0x60280008,  //  00E2  GETGBL	R10	G8
-      0x882C0F3F,  //  00E3  GETMBR	R11	R7	K63
-      0x7C280200,  //  00E4  CALL	R10	1
-      0x0024120A,  //  00E5  ADD	R9	R9	R10
-      0x58280033,  //  00E6  LDCONST	R10	K51
-      0x7C200400,  //  00E7  CALL	R8	2
-      0x8C200140,  //  00E8  GETMET	R8	R0	K64
-      0x5C280A00,  //  00E9  MOVE	R10	R5
-      0x502C0000,  //  00EA  LDBOOL	R11	0	0
-      0x7C200600,  //  00EB  CALL	R8	3
-      0x50200000,  //  00EC  LDBOOL	R8	0	0
-      0xA8040001,  //  00ED  EXBLK	1	1
-      0x80041000,  //  00EE  RET	1	R8
-      0x8C200B41,  //  00EF  GETMET	R8	R5	K65
-      0x7C200200,  //  00F0  CALL	R8	1
-      0x5C241000,  //  00F1  MOVE	R9	R8
-      0x74260002,  //  00F2  JMPT	R9	#00F6
-      0x50240000,  //  00F3  LDBOOL	R9	0	0
-      0xA8040001,  //  00F4  EXBLK	1	1
-      0x80041200,  //  00F5  RET	1	R9
-      0x8C240B2E,  //  00F6  GETMET	R9	R5	K46
-      0x7C240200,  //  00F7  CALL	R9	1
-      0xB8261A00,  //  00F8  GETNGBL	R9	K13
-      0x8C24130E,  //  00F9  GETMET	R9	R9	K14
-      0x542E0003,  //  00FA  LDINT	R11	4
-      0x7C240400,  //  00FB  CALL	R9	2
-      0x78260012,  //  00FC  JMPF	R9	#0110
-      0xB8261E00,  //  00FD  GETNGBL	R9	K15
-      0x60280008,  //  00FE  GETGBL	R10	G8
-      0x882C0B43,  //  00FF  GETMBR	R11	R5	K67
-      0x7C280200,  //  0100  CALL	R10	1
-      0x002A840A,  //  0101  ADD	R10	K66	R10
-      0x00281544,  //  0102  ADD	R10	R10	K68
-      0x602C0008,  //  0103  GETGBL	R11	G8
-      0x88300B30,  //  0104  GETMBR	R12	R5	K48
-      0x7C2C0200,  //  0105  CALL	R11	1
-      0x0028140B,  //  0106  ADD	R10	R10	R11
-      0x00281545,  //  0107  ADD	R10	R10	K69
-      0x602C0008,  //  0108  GETGBL	R11	G8
-      0x88300B37,  //  0109  GETMBR	R12	R5	K55
-      0x5436FFFE,  //  010A  LDINT	R13	65535
-      0x2C30180D,  //  010B  AND	R12	R12	R13
-      0x7C2C0200,  //  010C  CALL	R11	1
-      0x0028140B,  //  010D  ADD	R10	R10	R11
-      0x542E0003,  //  010E  LDINT	R11	4
-      0x7C240400,  //  010F  CALL	R9	2
-      0x88240100,  //  0110  GETMBR	R9	R0	K0
-      0x8C24132F,  //  0111  GETMET	R9	R9	K47
-      0x5C2C0A00,  //  0112  MOVE	R11	R5
-      0x7C240400,  //  0113  CALL	R9	2
-      0x88240B43,  //  0114  GETMBR	R9	R5	K67
-      0x1C281324,  //  0115  EQ	R10	R9	K36
-      0x782A000F,  //  0116  JMPF	R10	#0127
-      0x88280B30,  //  0117  GETMBR	R10	R5	K48
-      0x542E000F,  //  0118  LDINT	R11	16
-      0x1C28140B,  //  0119  EQ	R10	R10	R11
-      0x782A0009,  //  011A  JMPF	R10	#0125
-      0x88280104,  //  011B  GETMBR	R10	R0	K4
-      0x8C281546,  //  011C  GETMET	R10	R10	K70
-      0x5C300A00,  //  011D  MOVE	R12	R5
-      0x7C280400,  //  011E  CALL	R10	2
-      0x5C101400,  //  011F  MOVE	R4	R10
-      0x78120003,  //  0120  JMPF	R4	#0125
-      0x88280104,  //  0121  GETMBR	R10	R0	K4
-      0x8C281547,  //  0122  GETMET	R10	R10	K71
-      0x5C300000,  //  0123  MOVE	R12	R0
-      0x7C280400,  //  0124  CALL	R10	2
-      0x50100200,  //  0125  LDBOOL	R4	1	0
-      0x70020019,  //  0126  JMP		#0141
-      0x1C281348,  //  0127  EQ	R10	R9	K72
-      0x782A0010,  //  0128  JMPF	R10	#013A
-      0x88280104,  //  0129  GETMBR	R10	R0	K4
-      0x8C281538,  //  012A  GETMET	R10	R10	K56
-      0x5C300A00,  //  012B  MOVE	R12	R5
-      0x7C280400,  //  012C  CALL	R10	2
-      0x5C101400,  //  012D  MOVE	R4	R10
-      0x78120004,  //  012E  JMPF	R4	#0134
+      0xB8221E00,  //  009E  GETNGBL	R8	K15
+      0x58240038,  //  009F  LDCONST	R9	K56
+      0x7C200200,  //  00A0  CALL	R8	1
+      0x88200101,  //  00A1  GETMBR	R8	R0	K1
+      0x8C201139,  //  00A2  GETMET	R8	R8	K57
+      0x5C280A00,  //  00A3  MOVE	R10	R5
+      0x7C200400,  //  00A4  CALL	R8	2
+      0x5C101000,  //  00A5  MOVE	R4	R8
+      0x5C200800,  //  00A6  MOVE	R8	R4
+      0x74220003,  //  00A7  JMPT	R8	#00AC
+      0x8C20012D,  //  00A8  GETMET	R8	R0	K45
+      0x5C280A00,  //  00A9  MOVE	R10	R5
+      0x502C0000,  //  00AA  LDBOOL	R11	0	0
+      0x7C200600,  //  00AB  CALL	R8	3
+      0x50200200,  //  00AC  LDBOOL	R8	1	0
+      0xA8040001,  //  00AD  EXBLK	1	1
+      0x80041000,  //  00AE  RET	1	R8
+      0x70020096,  //  00AF  JMP		#0147
+      0xB81E1A00,  //  00B0  GETNGBL	R7	K13
+      0x8C1C0F0E,  //  00B1  GETMET	R7	R7	K14
+      0x54260003,  //  00B2  LDINT	R9	4
+      0x7C1C0400,  //  00B3  CALL	R7	2
+      0x781E0007,  //  00B4  JMPF	R7	#00BD
+      0xB81E1E00,  //  00B5  GETNGBL	R7	K15
+      0x60200018,  //  00B6  GETGBL	R8	G24
+      0x5824003A,  //  00B7  LDCONST	R9	K58
+      0x88280B12,  //  00B8  GETMBR	R10	R5	K18
+      0x882C0B14,  //  00B9  GETMBR	R11	R5	K20
+      0x7C200600,  //  00BA  CALL	R8	3
+      0x54260003,  //  00BB  LDINT	R9	4
+      0x7C1C0400,  //  00BC  CALL	R7	2
+      0x881C0100,  //  00BD  GETMBR	R7	R0	K0
+      0x881C0F20,  //  00BE  GETMBR	R7	R7	K32
+      0x8C1C0F3B,  //  00BF  GETMET	R7	R7	K59
+      0x88240B12,  //  00C0  GETMBR	R9	R5	K18
+      0x7C1C0400,  //  00C1  CALL	R7	2
+      0x4C200000,  //  00C2  LDNIL	R8
+      0x1C200E08,  //  00C3  EQ	R8	R7	R8
+      0x78220009,  //  00C4  JMPF	R8	#00CF
+      0xB8221E00,  //  00C5  GETNGBL	R8	K15
+      0x60240008,  //  00C6  GETGBL	R9	G8
+      0x88280B12,  //  00C7  GETMBR	R10	R5	K18
+      0x7C240200,  //  00C8  CALL	R9	1
+      0x00267809,  //  00C9  ADD	R9	K60	R9
+      0x58280033,  //  00CA  LDCONST	R10	K51
+      0x7C200400,  //  00CB  CALL	R8	2
+      0x50200000,  //  00CC  LDBOOL	R8	0	0
+      0xA8040001,  //  00CD  EXBLK	1	1
+      0x80041000,  //  00CE  RET	1	R8
+      0x780A0000,  //  00CF  JMPF	R2	#00D1
+      0x901E4C02,  //  00D0  SETMBR	R7	K38	R2
+      0x780E0000,  //  00D1  JMPF	R3	#00D3
+      0x901E4E03,  //  00D2  SETMBR	R7	K39	R3
+      0x901E5000,  //  00D3  SETMBR	R7	K40	R0
+      0x90162207,  //  00D4  SETMBR	R5	K17	R7
+      0x8C200F3D,  //  00D5  GETMET	R8	R7	K61
+      0x88280B14,  //  00D6  GETMBR	R10	R5	K20
+      0x502C0200,  //  00D7  LDBOOL	R11	1	0
+      0x7C200600,  //  00D8  CALL	R8	3
+      0x74220017,  //  00D9  JMPT	R8	#00F2
+      0xB8221A00,  //  00DA  GETNGBL	R8	K13
+      0x8C20110E,  //  00DB  GETMET	R8	R8	K14
+      0x58280033,  //  00DC  LDCONST	R10	K51
+      0x7C200400,  //  00DD  CALL	R8	2
+      0x7822000B,  //  00DE  JMPF	R8	#00EB
+      0xB8221E00,  //  00DF  GETNGBL	R8	K15
+      0x60240008,  //  00E0  GETGBL	R9	G8
+      0x88280B14,  //  00E1  GETMBR	R10	R5	K20
+      0x7C240200,  //  00E2  CALL	R9	1
+      0x00267C09,  //  00E3  ADD	R9	K62	R9
+      0x0024133F,  //  00E4  ADD	R9	R9	K63
+      0x60280008,  //  00E5  GETGBL	R10	G8
+      0x882C0F40,  //  00E6  GETMBR	R11	R7	K64
+      0x7C280200,  //  00E7  CALL	R10	1
+      0x0024120A,  //  00E8  ADD	R9	R9	R10
+      0x58280033,  //  00E9  LDCONST	R10	K51
+      0x7C200400,  //  00EA  CALL	R8	2
+      0x8C200141,  //  00EB  GETMET	R8	R0	K65
+      0x5C280A00,  //  00EC  MOVE	R10	R5
+      0x502C0000,  //  00ED  LDBOOL	R11	0	0
+      0x7C200600,  //  00EE  CALL	R8	3
+      0x50200000,  //  00EF  LDBOOL	R8	0	0
+      0xA8040001,  //  00F0  EXBLK	1	1
+      0x80041000,  //  00F1  RET	1	R8
+      0x8C200B42,  //  00F2  GETMET	R8	R5	K66
+      0x7C200200,  //  00F3  CALL	R8	1
+      0x5C241000,  //  00F4  MOVE	R9	R8
+      0x74260002,  //  00F5  JMPT	R9	#00F9
+      0x50240000,  //  00F6  LDBOOL	R9	0	0
+      0xA8040001,  //  00F7  EXBLK	1	1
+      0x80041200,  //  00F8  RET	1	R9
+      0x8C240B2E,  //  00F9  GETMET	R9	R5	K46
+      0x7C240200,  //  00FA  CALL	R9	1
+      0xB8261A00,  //  00FB  GETNGBL	R9	K13
+      0x8C24130E,  //  00FC  GETMET	R9	R9	K14
+      0x542E0003,  //  00FD  LDINT	R11	4
+      0x7C240400,  //  00FE  CALL	R9	2
+      0x78260012,  //  00FF  JMPF	R9	#0113
+      0xB8261E00,  //  0100  GETNGBL	R9	K15
+      0x60280008,  //  0101  GETGBL	R10	G8
+      0x882C0B44,  //  0102  GETMBR	R11	R5	K68
+      0x7C280200,  //  0103  CALL	R10	1
+      0x002A860A,  //  0104  ADD	R10	K67	R10
+      0x00281545,  //  0105  ADD	R10	R10	K69
+      0x602C0008,  //  0106  GETGBL	R11	G8
+      0x88300B30,  //  0107  GETMBR	R12	R5	K48
+      0x7C2C0200,  //  0108  CALL	R11	1
+      0x0028140B,  //  0109  ADD	R10	R10	R11
+      0x00281546,  //  010A  ADD	R10	R10	K70
+      0x602C0008,  //  010B  GETGBL	R11	G8
+      0x88300B37,  //  010C  GETMBR	R12	R5	K55
+      0x5436FFFE,  //  010D  LDINT	R13	65535
+      0x2C30180D,  //  010E  AND	R12	R12	R13
+      0x7C2C0200,  //  010F  CALL	R11	1
+      0x0028140B,  //  0110  ADD	R10	R10	R11
+      0x542E0003,  //  0111  LDINT	R11	4
+      0x7C240400,  //  0112  CALL	R9	2
+      0x88240100,  //  0113  GETMBR	R9	R0	K0
+      0x8C24132F,  //  0114  GETMET	R9	R9	K47
+      0x5C2C0A00,  //  0115  MOVE	R11	R5
+      0x7C240400,  //  0116  CALL	R9	2
+      0x88240B44,  //  0117  GETMBR	R9	R5	K68
+      0x1C281324,  //  0118  EQ	R10	R9	K36
+      0x782A000F,  //  0119  JMPF	R10	#012A
+      0x88280B30,  //  011A  GETMBR	R10	R5	K48
+      0x542E000F,  //  011B  LDINT	R11	16
+      0x1C28140B,  //  011C  EQ	R10	R10	R11
+      0x782A0009,  //  011D  JMPF	R10	#0128
+      0x88280104,  //  011E  GETMBR	R10	R0	K4
+      0x8C281547,  //  011F  GETMET	R10	R10	K71
+      0x5C300A00,  //  0120  MOVE	R12	R5
+      0x7C280400,  //  0121  CALL	R10	2
+      0x5C101400,  //  0122  MOVE	R4	R10
+      0x78120003,  //  0123  JMPF	R4	#0128
+      0x88280104,  //  0124  GETMBR	R10	R0	K4
+      0x8C281548,  //  0125  GETMET	R10	R10	K72
+      0x5C300000,  //  0126  MOVE	R12	R0
+      0x7C280400,  //  0127  CALL	R10	2
+      0x50100200,  //  0128  LDBOOL	R4	1	0
+      0x7002001C,  //  0129  JMP		#0147
+      0x1C281349,  //  012A  EQ	R10	R9	K73
+      0x782A0013,  //  012B  JMPF	R10	#0140
+      0xB82A1E00,  //  012C  GETNGBL	R10	K15
+      0x582C004A,  //  012D  LDCONST	R11	K74
+      0x7C280200,  //  012E  CALL	R10	1
       0x88280104,  //  012F  GETMBR	R10	R0	K4
-      0x8C281547,  //  0130  GETMET	R10	R10	K71
-      0x5C300000,  //  0131  MOVE	R12	R0
+      0x8C281539,  //  0130  GETMET	R10	R10	K57
+      0x5C300A00,  //  0131  MOVE	R12	R5
       0x7C280400,  //  0132  CALL	R10	2
-      0x70020003,  //  0133  JMP		#0138
-      0x8C280140,  //  0134  GETMET	R10	R0	K64
-      0x5C300A00,  //  0135  MOVE	R12	R5
-      0x50340200,  //  0136  LDBOOL	R13	1	0
-      0x7C280600,  //  0137  CALL	R10	3
-      0x50100200,  //  0138  LDBOOL	R4	1	0
-      0x70020006,  //  0139  JMP		#0141
-      0xB82A1E00,  //  013A  GETNGBL	R10	K15
-      0x602C0008,  //  013B  GETGBL	R11	G8
-      0x5C301200,  //  013C  MOVE	R12	R9
-      0x7C2C0200,  //  013D  CALL	R11	1
-      0x002E920B,  //  013E  ADD	R11	K73	R11
-      0x58300033,  //  013F  LDCONST	R12	K51
-      0x7C280400,  //  0140  CALL	R10	2
-      0xA8040001,  //  0141  EXBLK	1	1
-      0x80040800,  //  0142  RET	1	R4
-      0xA8040001,  //  0143  EXBLK	1	1
-      0x70020017,  //  0144  JMP		#015D
-      0xAC140002,  //  0145  CATCH	R5	0	2
-      0x70020014,  //  0146  JMP		#015C
-      0xB81E1E00,  //  0147  GETNGBL	R7	K15
-      0x60200008,  //  0148  GETGBL	R8	G8
-      0x5C240A00,  //  0149  MOVE	R9	R5
-      0x7C200200,  //  014A  CALL	R8	1
-      0x00229408,  //  014B  ADD	R8	K74	R8
-      0x0020114B,  //  014C  ADD	R8	R8	K75
-      0x60240008,  //  014D  GETGBL	R9	G8
-      0x5C280C00,  //  014E  MOVE	R10	R6
-      0x7C240200,  //  014F  CALL	R9	1
-      0x00201009,  //  0150  ADD	R8	R8	R9
-      0x5824004C,  //  0151  LDCONST	R9	K76
-      0x7C1C0400,  //  0152  CALL	R7	2
-      0xB81E1A00,  //  0153  GETNGBL	R7	K13
-      0x881C0F4D,  //  0154  GETMBR	R7	R7	K77
-      0x781E0002,  //  0155  JMPF	R7	#0159
-      0xA41E9C00,  //  0156  IMPORT	R7	K78
-      0x8C200F4F,  //  0157  GETMET	R8	R7	K79
-      0x7C200200,  //  0158  CALL	R8	1
-      0x501C0000,  //  0159  LDBOOL	R7	0	0
-      0x80040E00,  //  015A  RET	1	R7
-      0x70020000,  //  015B  JMP		#015D
-      0xB0080000,  //  015C  RAISE	2	R0	R0
-      0x80000000,  //  015D  RET	0
+      0x5C101400,  //  0133  MOVE	R4	R10
+      0x78120004,  //  0134  JMPF	R4	#013A
+      0x88280104,  //  0135  GETMBR	R10	R0	K4
+      0x8C281548,  //  0136  GETMET	R10	R10	K72
+      0x5C300000,  //  0137  MOVE	R12	R0
+      0x7C280400,  //  0138  CALL	R10	2
+      0x70020003,  //  0139  JMP		#013E
+      0x8C280141,  //  013A  GETMET	R10	R0	K65
+      0x5C300A00,  //  013B  MOVE	R12	R5
+      0x50340200,  //  013C  LDBOOL	R13	1	0
+      0x7C280600,  //  013D  CALL	R10	3
+      0x50100200,  //  013E  LDBOOL	R4	1	0
+      0x70020006,  //  013F  JMP		#0147
+      0xB82A1E00,  //  0140  GETNGBL	R10	K15
+      0x602C0008,  //  0141  GETGBL	R11	G8
+      0x5C301200,  //  0142  MOVE	R12	R9
+      0x7C2C0200,  //  0143  CALL	R11	1
+      0x002E960B,  //  0144  ADD	R11	K75	R11
+      0x58300033,  //  0145  LDCONST	R12	K51
+      0x7C280400,  //  0146  CALL	R10	2
+      0xA8040001,  //  0147  EXBLK	1	1
+      0x80040800,  //  0148  RET	1	R4
+      0xA8040001,  //  0149  EXBLK	1	1
+      0x70020017,  //  014A  JMP		#0163
+      0xAC140002,  //  014B  CATCH	R5	0	2
+      0x70020014,  //  014C  JMP		#0162
+      0xB81E1E00,  //  014D  GETNGBL	R7	K15
+      0x60200008,  //  014E  GETGBL	R8	G8
+      0x5C240A00,  //  014F  MOVE	R9	R5
+      0x7C200200,  //  0150  CALL	R8	1
+      0x00229808,  //  0151  ADD	R8	K76	R8
+      0x0020114D,  //  0152  ADD	R8	R8	K77
+      0x60240008,  //  0153  GETGBL	R9	G8
+      0x5C280C00,  //  0154  MOVE	R10	R6
+      0x7C240200,  //  0155  CALL	R9	1
+      0x00201009,  //  0156  ADD	R8	R8	R9
+      0x5824004E,  //  0157  LDCONST	R9	K78
+      0x7C1C0400,  //  0158  CALL	R7	2
+      0xB81E1A00,  //  0159  GETNGBL	R7	K13
+      0x881C0F4F,  //  015A  GETMBR	R7	R7	K79
+      0x781E0002,  //  015B  JMPF	R7	#015F
+      0xA41EA000,  //  015C  IMPORT	R7	K80
+      0x8C200F51,  //  015D  GETMET	R8	R7	K81
+      0x7C200200,  //  015E  CALL	R8	1
+      0x501C0000,  //  015F  LDBOOL	R7	0	0
+      0x80040E00,  //  0160  RET	1	R7
+      0x70020000,  //  0161  JMP		#0163
+      0xB0080000,  //  0162  RAISE	2	R0	R0
+      0x80000000,  //  0163  RET	0
     })
   )
 );
@@ -584,7 +592,7 @@ be_local_closure(class_Matter_MessageHandler_send_response_frame,   /* name */
     &be_const_str_solidified,
     ( &(const binstruction[ 5]) {  /* code */
       0x88080100,  //  0000  GETMBR	R2	R0	K0
-      0x8C080550,  //  0001  GETMET	R2	R2	K80
+      0x8C080552,  //  0001  GETMET	R2	R2	K82
       0x5C100200,  //  0002  MOVE	R4	R1
       0x7C080400,  //  0003  CALL	R2	2
       0x80000000,  //  0004  RET	0
@@ -627,7 +635,7 @@ be_local_closure(class_Matter_MessageHandler_send_simple_ack,   /* name */
       0x7812000D,  //  000D  JMPF	R4	#001C
       0xB8121E00,  //  000E  GETNGBL	R4	K15
       0x60140018,  //  000F  GETGBL	R5	G24
-      0x58180051,  //  0010  LDCONST	R6	K81
+      0x58180053,  //  0010  LDCONST	R6	K83
       0x881C0711,  //  0011  GETMBR	R7	R3	K17
       0x881C0F12,  //  0012  GETMBR	R7	R7	K18
       0x88200713,  //  0013  GETMBR	R8	R3	K19
@@ -667,7 +675,7 @@ be_local_closure(class_Matter_MessageHandler_every_50ms,   /* name */
     &be_const_str_solidified,
     ( &(const binstruction[ 4]) {  /* code */
       0x88040104,  //  0000  GETMBR	R1	R0	K4
-      0x8C040352,  //  0001  GETMET	R1	R1	K82
+      0x8C040354,  //  0001  GETMET	R1	R1	K84
       0x7C040200,  //  0002  CALL	R1	1
       0x80000000,  //  0003  RET	0
     })
@@ -694,10 +702,10 @@ be_local_closure(class_Matter_MessageHandler_every_second,   /* name */
     &be_const_str_solidified,
     ( &(const binstruction[ 7]) {  /* code */
       0x88040101,  //  0000  GETMBR	R1	R0	K1
-      0x8C040353,  //  0001  GETMET	R1	R1	K83
+      0x8C040355,  //  0001  GETMET	R1	R1	K85
       0x7C040200,  //  0002  CALL	R1	1
       0x88040104,  //  0003  GETMBR	R1	R0	K4
-      0x8C040353,  //  0004  GETMET	R1	R1	K83
+      0x8C040355,  //  0004  GETMET	R1	R1	K85
       0x7C040200,  //  0005  CALL	R1	1
       0x80000000,  //  0006  RET	0
     })
