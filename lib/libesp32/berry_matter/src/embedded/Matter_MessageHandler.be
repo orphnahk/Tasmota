@@ -87,12 +87,17 @@ class Matter_MessageHandler
     var ret = false
     tasmota.log("FUCK YOU msg_received")
     try
-      # log("MTR: MessageHandler::msg_received raw="+raw.tohex(), 4)
+      log("MTR: MessageHandler::msg_received raw="+raw.tohex(), 4)
       var frame = matter.Frame(self, raw, addr, port)
 
       var ok = frame.decode_header()
       # matter.profiler.log("msg_received_header_decoded")
-      if !ok      return false end
+      if !ok      
+        log("FUCK YOU header decoded not ok")
+        return false 
+      end
+
+      log("FUCK YOU header decoded ok")
 
       # do we need decryption?
       if frame.sec_p
