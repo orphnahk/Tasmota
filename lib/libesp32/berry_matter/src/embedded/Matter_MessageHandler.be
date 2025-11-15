@@ -190,7 +190,7 @@ class Matter_MessageHandler
         if tasmota.loglevel(4)
           log("MTR: >          Decrypted message: protocol_id:"+str(frame.protocol_id)+" opcode="+str(frame.opcode)+" exchange_id="+str(frame.exchange_id & 0xFFFF), 4)
         end
-
+        log(format("FUCK YOU message from %s", addr))
         # log(format("MTR: >rcv       (%6i) [%02X/%02X] rid=%i exch=%i ack=%s %sfrom [%s]:%i", session.local_session_id, frame.protocol_id, frame.opcode, frame.message_counter, frame.exchange_id, str(frame.ack_message_counter), frame.x_flag_r ? "{reliable} " : "", addr, port), 3)
 
         self.device.received_ack(frame)                     # remove acknowledge packet from sending list
