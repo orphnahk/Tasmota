@@ -903,6 +903,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request(msg, val)
+    tasmota.log("FUCK YOU process_invoke_request", 3)
     # import debug
     # structure is `ReadRequestMessage` 10.6.2 p.558
     tasmota.log("MTR: IM:invoke_request processing start", 4)
@@ -977,6 +978,7 @@ class Matter_IM
   # returns `true` if processed, `false` if silently ignored,
   # or raises an exception
   def process_invoke_request_solo(msg, ctx)
+    tasmota.log("FUCK YOU process_invoke_request_solo", 3)
     # import debug
     ctx.msg = msg
     ctx.status = matter.UNSUPPORTED_COMMAND   #default error if returned `nil`
