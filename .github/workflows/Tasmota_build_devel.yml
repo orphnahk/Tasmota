@@ -17,7 +17,6 @@ concurrency:
 jobs:
   safeboot-images:
     runs-on: ubuntu-latest
-    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
