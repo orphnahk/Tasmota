@@ -17,7 +17,7 @@ concurrency:
 jobs:
   safeboot-images:
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -74,7 +74,7 @@ jobs:
 
   base-images:
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -124,7 +124,7 @@ jobs:
   base32-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -191,7 +191,7 @@ jobs:
 
   language-images:
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -231,7 +231,7 @@ jobs:
   language32-images:
     needs: safeboot-images
     runs-on: ubuntu-latest
-    if: github.repository == 'arendst/Tasmota'
+    if: github.repository == 'orphnahk/Tasmota'
     continue-on-error: true
     strategy:
       matrix:
@@ -284,8 +284,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
     steps:
-    - name: Dispatch workflow in arendst/Tasmota-firmware
+    - name: Dispatch workflow in orphnahk/Tasmota-firmware
       run: |
-        gh api repos/arendst/Tasmota-firmware/actions/workflows/fetch_deploy.yml/dispatches \
+        gh api repos/orphnahk/Tasmota-firmware/actions/workflows/fetch_deploy.yml/dispatches \
           --method POST \
           -f ref='gh_actions'
