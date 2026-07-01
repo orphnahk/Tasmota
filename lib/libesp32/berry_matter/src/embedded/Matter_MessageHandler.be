@@ -55,7 +55,7 @@ class Matter_MessageHandler
       resp.encode_frame()
 #if USE_BERRY_DEBUG
       if tasmota.loglevel(4)
-        log(format("MTR: <Ack       (%6i) ack=%i id=%i %s", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter, reliable ? '{reliable}' : ''), 4)
+      #  log(format("MTR: <Ack       (%6i) ack=%i id=%i %s", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter, reliable ? '{reliable}' : ''), 4)
       end
 #endif
       self.send_response_frame(resp)
@@ -74,7 +74,7 @@ class Matter_MessageHandler
       resp.encrypt()
 #if USE_BERRY_DEBUG
       if tasmota.loglevel(4)
-        log(format("MTR: <Ack*      (%6i) ack=%i id=%i %s", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter, reliable ? '{reliable}' : ''), 4)
+      #  log(format("MTR: <Ack*      (%6i) ack=%i id=%i %s", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter, reliable ? '{reliable}' : ''), 4)
       end
 #endif
       self.send_response_frame(resp)
@@ -91,12 +91,15 @@ class Matter_MessageHandler
     var ret = false
 
     try
-      # log("MTR: MessageHandler::msg_received raw="+raw.tohex(), 4)
+    #  log(f"MTR: MessageHandler::msg_received address={str(addr)} port={str(port)} raw={str(raw)}" , 3)
+
       var frame = matter.Frame(self, raw, addr, port)
 
       var ok = frame.decode_header()
       # matter.profiler.log("msg_received_header_decoded")
       if !ok      return false end
+
+    #  log(f"MTR: MessageHandler::decoded_header {str(frame.sec_p)}" , 3)
 
       # do we need decryption?
       if frame.sec_p
@@ -119,7 +122,7 @@ class Matter_MessageHandler
         if !session._counter_insecure_rcv.validate(frame.message_counter, false)
 #if USE_BERRY_DEBUG
           if tasmota.loglevel(4)
-            log(format("MTR: .          Duplicate unencrypted message = %i ref = %i", frame.message_counter, session._counter_insecure_rcv.val()), 4)
+          #  log(format("MTR: .          Duplicate unencrypted message = %i ref = %i", frame.message_counter, session._counter_insecure_rcv.val()), 4)
           end
 #endif
           self.send_simple_ack(frame, false #-not reliable-#)
@@ -132,16 +135,17 @@ class Matter_MessageHandler
           var op_name = matter.get_opcode_name(frame.opcode)
           if !op_name   op_name = format("0x%02X", frame.opcode) end
           if tasmota.loglevel(3)
-            log(format("MTR: >Received  (%6i) %s from [%s]:%i", session.local_session_id, op_name, addr, port), 3)
+          #  log(format("MTR: >Received  (%6i) %s from [%s]:%i", session.local_session_id, op_name, addr, port), 3)
             # log(format("MTR: >Received  (%6i) %s rid=%i exch=%i from [%s]:%i", session.local_session_id, op_name, frame.message_counter, frame.exchange_id, addr, port), 3)
           end
         else
 #if USE_BERRY_DEBUG
           if tasmota.loglevel(4)
-            log(format("MTR: >rcv Ack   (%6i) rid=%i exch=%i ack=%s %sfrom [%s]:%i", session.local_session_id, frame.message_counter, frame.x_flag_r ? "{reliable} " : "", frame.exchange_id, str(frame.ack_message_counter), addr, port), 4)
+          #  log(format("MTR: >rcv Ack   (%6i) rid=%i exch=%i ack=%s %sfrom [%s]:%i", session.local_session_id, frame.message_counter, frame.x_flag_r ? "{reliable} " : "", frame.exchange_id, str(frame.ack_message_counter), addr, port), 4)
           end
 #endif
         end
+      #  log("commissioning.process_incoming 1", 3)
         ret = self.commissioning.process_incoming(frame)
         # if ret is false, the implicit Ack was not sent
         if !ret     self.send_simple_ack(frame, false #-not reliable-#)   end
@@ -152,14 +156,14 @@ class Matter_MessageHandler
         # matter.profiler.log("msg_received_header_encrypted_message_received")
 #if USE_BERRY_DEBUG
         if tasmota.loglevel(4)
-          log(format("MTR: decode header: local_session_id=%i message_counter=%i", frame.local_session_id, frame.message_counter), 4)
+        #  log(format("MTR: decode header: local_session_id=%i message_counter=%i", frame.local_session_id, frame.message_counter), 4)
         end
 #endif
 
         var session = self.device.sessions.get_session_by_local_session_id(frame.local_session_id)
         # matter.profiler.log("msg_received_header_session_retrieved")
         if session == nil
-          log("MTR: unknown local_session_id="+str(frame.local_session_id), 3)
+        #  log("MTR: unknown local_session_id="+str(frame.local_session_id), 3)
           # log("MTR: frame="+matter.inspect(frame), 3)
           return false
         end
@@ -173,7 +177,7 @@ class Matter_MessageHandler
         if !session.counter_rcv_validate(frame.message_counter, true)
 #if USE_BERRY_DEBUG
           if tasmota.loglevel(4)
-            log("MTR: .          Duplicate encrypted message = " + str(frame.message_counter) + " counter=" + str(session.counter_rcv), 4)
+          #  log("MTR: .          Duplicate encrypted message = " + str(frame.message_counter) + " counter=" + str(session.counter_rcv), 4)
           end
 #endif
           self.send_encrypted_ack(frame, false #-not reliable-#)
@@ -187,7 +191,7 @@ class Matter_MessageHandler
         # matter.profiler.log("msg_received_payload_undecoded")
 
         # continue decoding
-        # log(format("MTR: idx=%i clear=%s", frame.payload_idx, frame.raw.tohex()), 4)
+        # log(format("MTR: idx=%i clear=%s", frame.payload_idx, str(frame.raw)), 4)
         frame.decode_payload()
         # matter.profiler.log("msg_received_payload_decoded")
 #if USE_BERRY_DEBUG
@@ -214,6 +218,8 @@ class Matter_MessageHandler
           ret = true
         elif protocol_id == 0x0001  # PROTOCOL_ID_INTERACTION_MODEL
           # dispatch to IM Protocol Messages
+          
+          # log("commissioning.process_incoming 2", 3)
           ret = self.im.process_incoming(frame)
           # if `ret` is true, we have something to send
           if ret
@@ -226,14 +232,14 @@ class Matter_MessageHandler
 
         # -- PROTOCOL_ID_BDX is used for file transfer between devices, not used in Tasmota
         # elif protocol_id == 0x0002  # PROTOCOL_ID_BDX -- BDX not handled at all in Tasmota
-        #   log("MTR: PROTOCOL_ID_BDX not yet handled", 2)
+        # #  log("MTR: PROTOCOL_ID_BDX not yet handled", 2)
         #   return false # ignore for now TODO
         # -- PROTOCOL_ID_USER_DIRECTED_COMMISSIONING is only used by devices, as a device we will not receive any
         # elif protocol_id == 0x0003  # PROTOCOL_ID_USER_DIRECTED_COMMISSIONING
-        #   log("MTR: PROTOCOL_ID_USER_DIRECTED_COMMISSIONING not yet handled", 2)
+        # #  log("MTR: PROTOCOL_ID_USER_DIRECTED_COMMISSIONING not yet handled", 2)
         #   return false # ignore for now TODO
         else
-          log("MTR: ignoring unhandled protocol_id:"+str(protocol_id), 3)
+        #  log("MTR: ignoring unhandled protocol_id:"+str(protocol_id), 3)
         end
 
       end

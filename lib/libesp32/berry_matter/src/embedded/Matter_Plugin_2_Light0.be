@@ -297,7 +297,7 @@ class Matter_Plugin_Light0 : Matter_Plugin_Device
   # Can be called only if `self.ZIGBEE` is true
   def zigbee_received(frame, attr_list)
     import math
-    log(f"MTR: zigbee_received Ox{self.zigbee_mapper.shortaddr:04X} {attr_list=} {type(attr_list)=}", 3)
+    #log(f"MTR: zigbee_received Ox{self.zigbee_mapper.shortaddr:04X} {attr_list=} {type(attr_list)=}", 3)
     var idx = 0
     var update_list = {}
     while (idx < size(attr_list))
@@ -315,7 +315,7 @@ class Matter_Plugin_Light0 : Matter_Plugin_Device
     end
     if (size(update_list) > 0)
       self.update_virtual(update_list)
-      log(f"MTR: [{self.endpoint:02X}] Light2 updated {update_list}", 3)
+      #log(f"MTR: [{self.endpoint:02X}] Light2 updated {update_list}", 3)
     end
   end
 

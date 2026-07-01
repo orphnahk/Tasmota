@@ -132,7 +132,7 @@ class Matter_IM_Message
     resp.encrypt()
 #if USE_BERRY_DEBUG
     if tasmota.loglevel(4)
-      log(f"MTR: <snd       ({resp.session.local_session_id:6i}) id={resp.message_counter} exch={resp.exchange_id} rack={resp.ack_message_counter}", 4)
+    #  log(f"MTR: <snd       ({resp.session.local_session_id:6i}) id={resp.message_counter} exch={resp.exchange_id} rack={resp.ack_message_counter}", 4)
     end
 #endif
     responder.send_response_frame(resp)
@@ -326,7 +326,7 @@ class Matter_IM_ReportData_Pull : Matter_IM_Message
           if (ev.data0 != nil)   data_str = " - " + str(ev.data0)             end
           if (ev.data1 != nil)   data_str += ", " + str(ev.data1)     end
           if (ev.data2 != nil)   data_str += ", " + str(ev.data2)     end
-          log(f"MTR: >Read_Event({resp.session.local_session_id:6i}|{ev.event_no:8s}) [{ev.endpoint:02X}]{ev.cluster:04X}/{ev.event_id:02X}{data_str}", 3)
+          #log(f"MTR: >Read_Event({resp.session.local_session_id:6i}|{ev.event_no:8s}) [{ev.endpoint:02X}]{ev.cluster:04X}/{ev.event_id:02X}{data_str}", 3)
         end
         # send bytes
         var ev_bytes = ev.to_raw_bytes()
@@ -533,7 +533,7 @@ class Matter_IM_ReportDataSubscribed_Pull : Matter_IM_ReportData_Pull
         resp.encrypt()
 #if USE_BERRY_DEBUG
         if tasmota.loglevel(4)
-          log(format("MTR: <Ack       (%6i) ack=%i id=%i", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter), 4)
+        #  log(format("MTR: <Ack       (%6i) ack=%i id=%i", resp.session.local_session_id, resp.ack_message_counter, resp.message_counter), 4)
         end
 #endif
         responder.send_response_frame(resp)
@@ -679,7 +679,7 @@ class Matter_IM_SubscribeResponse_Pull : Matter_IM_ReportData_Pull
     # log(format("MTR: IM_SubscribeResponse status_ok_received sub=%i exch=%i ack=%i last_counter=%i finished=%s", self.sub.subscription_id, self.resp.exchange_id, msg.ack_message_counter ? msg.ack_message_counter : 0 , self.last_counter, self.finished), 3)
     # once we receive ack, open flow for subscriptions
     if tasmota.loglevel(3)
-      log(format("MTR: >Sub_OK    (%6i) sub=%i", msg.session.local_session_id, self.sub.subscription_id), 3)
+    #  log(format("MTR: >Sub_OK    (%6i) sub=%i", msg.session.local_session_id, self.sub.subscription_id), 3)
     end
     return super(self).status_ok_received(msg)
     if !self.report_data_phase

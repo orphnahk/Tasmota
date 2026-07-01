@@ -261,6 +261,21 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     end
   end
 
+
+  def set_onoff(pow)
+    if !self.VIRTUAL
+      import light
+      light.set({'power':pow})
+      self.update_shadow()
+    else
+      if pow != self.shadow_onoff
+        self.attribute_updated(0x0006, 0x0000)
+        self.shadow_onoff = pow
+      end
+    end
+  end
+
+
   #############################################################
   # read an attribute
   #
@@ -268,8 +283,16 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var cluster = ctx.cluster
     var attribute = ctx.attribute
 
+    #log(f"read_attribute cluster=0x{str(cluster)} attribute=0x{str(attribute)}", 3)
     # ====================================================================================================
-    if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
+    if   cluster == 0x0006              # ========== On/Off 1.5 p.48 ==========
+      self.update_shadow_lazy()
+      if   attribute == 0x0000          #  ---------- OnOff / bool ----------
+        return tlv_solo.set(0x04 #-TLV.U1-#, self.shadow_onoff)
+      end
+      
+    # ====================================================================================================
+    elif   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
       self.update_shadow_lazy()
       if   attribute == 0x0000          #  ---------- CurrentLevel / u1 ----------
         return tlv_solo.set(0x04 #-TLV.U1-#, self.shadow_bri)
@@ -298,14 +321,35 @@ class Matter_Plugin_Light1 : Matter_Plugin_Light0
     var cluster = ctx.cluster
     var command = ctx.command
 
+    #log(f"MTR: Light1 invoke cluster=0x{str(cluster)} command=0x{str(command)}", 3)
+
+
+
+    if   cluster == 0x0006              # ========== On/Off 1.5 p.48 ==========
+      self.update_shadow_lazy()
+      if   command == 0x0000            # ---------- Off ----------
+        self.set_onoff(false)
+        self.publish_command('Power', 0)
+        return true
+      elif command == 0x0001            # ---------- On ----------
+        self.set_onoff(true)
+        self.publish_command('Power', 1)
+        return true
+      elif command == 0x0002            # ---------- Toggle ----------
+        self.set_onoff(!self.shadow_onoff)
+        self.publish_command('Power', self.shadow_onoff ? 1 : 0)
+        return true
+      end
+
     # ====================================================================================================
-    if   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
+    elif   cluster == 0x0008              # ========== Level Control 1.6 p.57 ==========
       self.update_shadow_lazy()
       if   command == 0x0000            # ---------- MoveToLevel ----------
         var bri_254 = val.findsubval(0)  # Hue 0..254
-        self.set_bri(bri_254)
+        var onoff = bri_254 > 0
+        self.set_bri(bri_254, onoff)
         ctx.log = "bri:"+str(bri_254)
-        self.publish_command('Bri', bri_254, 'Dimmer', tasmota.scale_uint(bri_254, 0, 254, 0, 100))
+        self.publish_command('Power', onoff ? 1 : 0, 'Bri', bri_254, 'Dimmer', tasmota.scale_uint(bri_254, 0, 254, 0, 100))
         return true
       elif command == 0x0001            # ---------- Move ----------
         # TODO, we don't really support it
